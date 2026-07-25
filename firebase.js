@@ -6,7 +6,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyBQehMWwcThf8NLMGeJIG-omcywEEiJpHs",
   authDomain: "raj-mini-mart.firebaseapp.com",
   projectId: "raj-mini-mart",
   storageBucket: "raj-mini-mart.firebasestorage.app",
@@ -31,7 +31,7 @@ async function loadProducts() {
         <img src="${p.image}" alt="${p.name}">
         <h3>${p.name}</h3>
         <p>₹${p.price}</p>
-        <a href="https://wa.me/91 6369135650" class="btn">Order on WhatsApp</a>
+        <a href="https://wa.me/916369135650" class="btn">Order on WhatsApp</a>
       </div>
     `;
   });
