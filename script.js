@@ -19,3 +19,25 @@ search.addEventListener("keyup", function () {
     });
 
 });
+let cartCount = 0;
+let total = 0;
+
+const buttons = document.querySelectorAll(".product button");
+
+buttons.forEach((btn)=>{
+    btn.addEventListener("click",()=>{
+
+        cartCount++;
+        document.getElementById("cart-count").innerText = cartCount;
+
+        const price = Number(
+            btn.parentElement.querySelector("p").innerText.replace("₹","")
+        );
+
+        total += price;
+
+        document.getElementById("total").innerText = total;
+
+        alert("✅ பொருள் Cart-ல் சேர்க்கப்பட்டது");
+    });
+});
