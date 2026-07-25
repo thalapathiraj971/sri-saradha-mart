@@ -27,3 +27,44 @@ header p{
 main{
     padding:15px;
 }
+.banner{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.banner h2{
+    color:#0b7a3b;
+}
+
+.btn{
+    display:inline-block;
+    margin-top:15px;
+    background:#25D366;
+    color:white;
+    padding:10px 20px;
+    text-decoration:none;
+    border-radius:8px;
+}
+
+.categories{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    margin-bottom:20px;
+}
+
+.categories button{
+    background:#0b7a3b;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+}
+
+.title{
+    margin:15px 0;
+    color:#0b7a3b;
+}
