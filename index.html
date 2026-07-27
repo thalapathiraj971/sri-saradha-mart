@@ -90,6 +90,17 @@ if ("serviceWorker" in navigator) {
     .then(() => console.log("Service Worker Registered"));
 }
     </script>
+    <script>
+function orderProduct(name, price) {
+    const message =
+    `வணக்கம்!\n\n📦 ${name}\n💰 ₹${price}`;
+
+    window.open(
+        `https://wa.me/916369135650?text=${encodeURIComponent(message)}`,
+        "_blank"
+    );
+}
+    </script>
 
 </body>
 </html>
