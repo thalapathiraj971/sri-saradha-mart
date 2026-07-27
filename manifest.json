@@ -1,10 +1,10 @@
 {
-  "name": "SRI SARADHA MART",
-  "short_name": "SRI SARADHA MART",
+  "name": "ஸ்ரீ சாரதா மார்ட்",
+  "short_name": "சாரதா ",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2e7d32",
+  "theme_color": "#008000",
   "icons": [
     {
       "src": "logo.png",
