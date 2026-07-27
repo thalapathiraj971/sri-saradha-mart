@@ -38,3 +38,26 @@ async function loadProducts() {
 }
 
 loadProducts();
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+// Add Product
+export async function addProduct(product) {
+  await addDoc(collection(db, "products"), product);
+}
+
+// Update Product
+export async function updateProduct(id, product) {
+  await updateDoc(doc(db, "products", id), product);
+}
+
+// Delete Product
+export async function deleteProduct(id) {
+  await deleteDoc(doc(db, "products", id));
+}
