@@ -76,6 +76,12 @@
 </main>
 
 <script src="script.js"></script>
+    <script>
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  console.log("App can be installed!");
+});
+    </script>
 
 </body>
 </html>
