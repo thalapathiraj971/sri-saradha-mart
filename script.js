@@ -63,4 +63,4 @@ function addToCart(name, price) {
     document.getElementById("cart-count").innerText = cart.length;
     document.getElementById("total").innerText = total;
 }
-image: "./rice.jpg"
+
