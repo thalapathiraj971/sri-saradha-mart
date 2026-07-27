@@ -41,3 +41,15 @@ buttons.forEach((btn)=>{
         alert("✅ பொருள் Cart-ல் சேர்க்கப்பட்டது");
     });
 });
+function orderProduct(name, price) {
+  const message =
+    `வணக்கம்!%0A` +
+    `எனக்கு இந்த பொருள் வேண்டும்:%0A%0A` +
+    `📦 ${name}%0A` +
+    `💰 ₹${price}`;
+
+  window.open(
+    `https://wa.me/916369135650?text=${message}`,
+    "_blank"
+  );
+}
