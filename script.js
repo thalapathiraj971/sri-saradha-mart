@@ -53,3 +53,13 @@ function orderProduct(name, price) {
     "_blank"
   );
 }
+let cart = [];
+let total = 0;
+
+function addToCart(name, price) {
+    cart.push({ name, price });
+    total += price;
+
+    document.getElementById("cart-count").innerText = cart.length;
+    document.getElementById("total").innerText = total;
+}
