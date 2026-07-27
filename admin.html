@@ -23,3 +23,73 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRI SARADHA MART - Admin</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f2f2f2;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+.box{
+background:#fff;
+padding:25px;
+border-radius:10px;
+width:320px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+}
+button{
+width:100%;
+padding:12px;
+background:green;
+color:white;
+border:none;
+border-radius:5px;
+font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2 align="center">SRI SARADHA MART</h2>
+
+<input type="text" id="user" placeholder="Username">
+
+<input type="password" id="pass" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+</div>
+
+<script>
+function login(){
+
+let u=document.getElementById("user").value;
+let p=document.getElementById("pass").value;
+
+if(u=="admin" && p=="123456"){
+location.href="dashboard.html";
+}else{
+alert("Wrong Username or Password");
+}
+
+}
+</script>
+
+</body>
+</html>
