@@ -1,4 +1,3 @@
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
@@ -10,8 +9,8 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
+// Firebase Configuration
 const firebaseConfig = {
-  alert("Dashboard JS Loaded");
   apiKey: "AIzaSyBQehMWwcThf8NLMGeJIG-omcywEEiJpHs",
   authDomain: "raj-mini-mart.firebaseapp.com",
   projectId: "raj-mini-mart",
@@ -20,10 +19,11 @@ const firebaseConfig = {
   appId: "1:490305070206:web:ff8214149720a7b8a1e42f"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// ADD PRODUCT
+// Add Product
 window.addProduct = async function () {
 
     const name = document.getElementById("name").value;
@@ -31,35 +31,47 @@ window.addProduct = async function () {
     const image = document.getElementById("image").value;
     const stock = document.getElementById("stock").value;
 
-    await addDoc(collection(db, "products"), {
-        name: name,
-        price: price,
-        image: image,
-        stock: stock
-    });
+    try {
+        await addDoc(collection(db, "products"), {
+            name,
+            price,
+            image,
+            stock
+        });
 
-    alert("Product Added Successfully!");
+        alert("✅ Product Added Successfully!");
+    } catch (error) {
+        alert("❌ Error: " + error.message);
+    }
 };
 
-// EDIT PRODUCT
+// Edit Product
 window.editProduct = async function () {
 
     const id = document.getElementById("productId").value;
     const newPrice = prompt("Enter New Price");
 
-    await updateDoc(doc(db, "products", id), {
-        price: Number(newPrice)
-    });
+    try {
+        await updateDoc(doc(db, "products", id), {
+            price: Number(newPrice)
+        });
 
-    alert("Product Updated!");
+        alert("✏️ Product Updated!");
+    } catch (error) {
+        alert("❌ Error: " + error.message);
+    }
 };
 
-// DELETE PRODUCT
+// Delete Product
 window.deleteProduct = async function () {
 
     const id = document.getElementById("productId").value;
 
-    await deleteDoc(doc(db, "products", id));
+    try {
+        await deleteDoc(doc(db, "products", id));
 
-    alert("Product Deleted!");
+        alert("🗑️ Product Deleted!");
+    } catch (error) {
+        alert("❌ Error: " + error.message);
+    }
 };
