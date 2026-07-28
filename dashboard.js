@@ -1,4 +1,4 @@
-alert("Dashboard JS Loaded");
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
@@ -11,6 +11,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
+  alert("Dashboard JS Loaded");
   apiKey: "AIzaSyBQehMWwcThf8NLMGeJIG-omcywEEiJpHs",
   authDomain: "raj-mini-mart.firebaseapp.com",
   projectId: "raj-mini-mart",
