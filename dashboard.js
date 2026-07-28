@@ -24,6 +24,17 @@ const db = getFirestore(app);
 
 // Add Product
 window.addProduct = async function () {
+  window.addProduct = async function () {
+
+    alert("Add Product Clicked!");
+
+    const name = document.getElementById("name").value;
+    const price = Number(document.getElementById("price").value);
+    const image = document.getElementById("image").value;
+    const stock = document.getElementById("stock").value;
+
+    console.log(name, price, image, stock);
+  }
 
     const name = document.getElementById("name").value;
     const price = Number(document.getElementById("price").value);
