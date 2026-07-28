@@ -81,3 +81,9 @@ window.deleteProduct = async function () {
 
     alert("🗑️ Product Deleted");
 };
+await addDoc(collection(db, "products"), {
+    name: name,
+    price: price,
+    image: image,
+    stock: stock
+});
