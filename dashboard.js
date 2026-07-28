@@ -1,5 +1,3 @@
-console.log("Dashboard JS Loaded");
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
 import {
@@ -23,10 +21,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Add Product
+// ADD PRODUCT
 window.addProduct = async function () {
-
-    alert("Add Product Clicked!");
 
     const name = document.getElementById("name").value;
     const price = Number(document.getElementById("price").value);
@@ -34,16 +30,16 @@ window.addProduct = async function () {
     const stock = document.getElementById("stock").value;
 
     await addDoc(collection(db, "products"), {
-        name,
-        price,
-        image,
-        stock
+        name: name,
+        price: price,
+        image: image,
+        stock: stock
     });
 
-    alert("✅ Product Added Successfully!");
+    alert("Product Added Successfully!");
 };
 
-// Edit Product
+// EDIT PRODUCT
 window.editProduct = async function () {
 
     const id = document.getElementById("productId").value;
@@ -53,15 +49,15 @@ window.editProduct = async function () {
         price: Number(newPrice)
     });
 
-    alert("✏️ Product Updated!");
+    alert("Product Updated!");
 };
 
-// Delete Product
+// DELETE PRODUCT
 window.deleteProduct = async function () {
 
     const id = document.getElementById("productId").value;
 
     await deleteDoc(doc(db, "products", id));
 
-    alert("🗑️ Product Deleted!");
+    alert("Product Deleted!");
 };
