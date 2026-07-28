@@ -63,4 +63,23 @@ function addToCart(name, price) {
     document.getElementById("cart-count").innerText = cart.length;
     document.getElementById("total").innerText = total;
 }
+const search = document.getElementById("search");
 
+search.addEventListener("keyup", () => {
+
+    let value = search.value.toLowerCase();
+
+    let products = document.querySelectorAll(".product");
+
+    products.forEach((product) => {
+
+        let name = product.querySelector("h3").innerText.toLowerCase();
+
+        if (name.includes(value)) {
+            product.style.display = "block";
+        } else {
+            product.style.display = "none";
+        }
+    });
+
+});
