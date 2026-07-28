@@ -41,3 +41,41 @@ window.addProduct = async function () {
   document.getElementById("price").value = "";
   document.getElementById("image").value = "";
 };
+// Edit Product Price
+
+window.editProduct = async function () {
+
+    const id = document.getElementById("productId").value;
+
+    const newPrice = prompt("Enter New Price:");
+
+    if (!id || !newPrice) {
+        alert("Enter Product ID & Price");
+        return;
+    }
+
+    await updateDoc(
+        doc(db, "products", id),
+        {
+            price: Number(newPrice)
+        }
+    );
+
+    alert("✅ Price Updated");
+};
+
+// Delete Product
+
+window.deleteProduct = async function () {
+
+    const id = document.getElementById("productId").value;
+
+    if (!id) {
+        alert("Enter Product ID");
+        return;
+    }
+
+    await deleteDoc(doc(db, "products", id));
+
+    alert("🗑️ Product Deleted");
+};
