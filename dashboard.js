@@ -26,6 +26,7 @@ window.addProduct = async function () {
   const price = Number(document.getElementById("price").value);
   const image = document.getElementById("image").value;
 
+  const stock = document.getElementById("stock").value;
   if (!name || !price || !image) {
     alert("அனைத்து தகவல்களையும் நிரப்புங்கள்");
     return;
