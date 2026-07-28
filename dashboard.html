@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ஸ்ரீ சாரதா மார்ட் - Dashboard</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1{
+            color: green;
+            text-align: center;
+        }
+
+        .box{
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: auto;
+            max-width: 450px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        input{
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        button{
+            width: 100%;
+            padding: 12px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        hr{
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🛒 ஸ்ரீ சாரதா மார்ட் Admin</h1>
+
+    <div class="box">
+
+        <input type="text" id="name" placeholder="Product Name">
+
+        <input type="number" id="price" placeholder="Price">
+
+        <input type="text" id="image" placeholder="Image URL">
+
+        <input type="text" id="stock" placeholder="In Stock / Out of Stock">
+
+        <button onclick="addProduct()">
+            ➕ Add Product
+        </button>
+
+        <hr>
+
+        <h3>Manage Products</h3>
+
+        <input type="text" id="productId" placeholder="Product ID">
+
+        <button onclick="editProduct()">
+            ✏️ Edit Product
+        </button>
+
+        <button onclick="deleteProduct()">
+            🗑️ Delete Product
+        </button>
+
+        <button onclick="logout()">
+            🚪 Logout
+        </button>
+
+    </div>
+
+    <script type="module" src="dashboard.js"></script>
+
+    <script>
+        function logout() {
+            window.location.href = "admin.html";
+        }
+    </script>
+
+</body>
+</html>
