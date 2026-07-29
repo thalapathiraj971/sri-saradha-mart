@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
   getFirestore,
   collection,
@@ -33,7 +34,6 @@ async function loadProducts() {
 
     productsDiv.innerHTML += `
       <div class="product">
-
         <img src="${product.image}" alt="${product.name}">
 
         <h3>${product.name}</h3>
@@ -49,7 +49,6 @@ async function loadProducts() {
         <button onclick="orderProduct('${product.name}', ${product.price})">
           WhatsApp Order
         </button>
-
       </div>
     `;
   });
@@ -74,9 +73,7 @@ window.addToCart = function(name, price) {
 window.orderProduct = function(name, price) {
 
   const message =
-    `வணக்கம்!\n\n` +
-    `பொருள்: ${name}\n` +
-    `விலை: ₹${price}`;
+    `வணக்கம்!\n\nபொருள்: ${name}\nவிலை: ₹${price}`;
 
   window.open(
     `https://wa.me/916369135650?text=${encodeURIComponent(message)}`,
