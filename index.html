@@ -1,113 +1,90 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ஸ்ரீ சாரதா மார்ட்</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
+<title>ஸ்ரீ சாரதா மார்ட்</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+
 </head>
 
 <body>
 
-<header>
-    <h1>🛒 ஸ்ரீ சாரதா மார்ட்</h1>
-    <p>மளிகை பொருட்கள் • Home Delivery</p>
+<header align="center">
+
+<img src="logo.png" class="logo" width="120">
+
+<h1>🛒 ஸ்ரீ சாரதா மார்ட்</h1>
+
+<p>மளிகை பொருட்கள் • Home Delivery</p>
+
 </header>
-    
-    <img src="logo.png" class="logo" alt="Sri Saradha Mart Logo">
 
-    <h1>🛒 ஸ்ரீ சாரதா மார்ட்</h1>
-
-    <p>மளிகை பொருட்கள் • Home Delivery</p>
-    </header>
-    
-        
 <div class="cart-bar">
-    <div style="text-align:center; margin:15px;">
-    <a href="https://wa.me/916369135650?text=வணக்கம்!%20எனக்கு%20பொருட்கள்%20ஆர்டர்%20செய்ய%20வேண்டும்."
-       class="btn">
-       📲 WhatsApp-ல் Order செய்யுங்கள்
-        <button onclick="checkout()" class="btn">
-    ✅ Checkout
-        </button>
-    </a>
-    </div>
-    🛒 Cart : <span id="cart-count">0</span>
-    &nbsp;&nbsp;|&nbsp;&nbsp;
-    Total : ₹<span id="total">0</span>
-</div>
-<main>
-<section class="banner">
-    <h2>🛍️ ஸ்ரீ சாரதா மார்ட்</h2>
-    <p>உங்கள் வீட்டு தேவைகளுக்கு ஒரே இடம்</p>
 
-    <a href="https://wa.me/916369135650" class="btn">
-        📲 WhatsApp Order
-    </a>
+<a href="https://wa.me/916369135650?text=வணக்கம்!%20எனக்கு%20பொருட்கள்%20ஆர்டர்%20செய்ய%20வேண்டும்."
+class="btn">
+
+📲 WhatsApp-ல் Order செய்யுங்கள்
+
+</a>
+
+<br><br>
+
+🛒 Cart :
+<span id="cart-count">0</span>
+
+&nbsp; | &nbsp;
+
+Total :
+₹<span id="total">0</span>
+
+</div>
+
+<main>
+
+<section class="banner">
+
+<h2>🛍️ ஸ்ரீ சாரதா மார்ட்</h2>
+
+<p>உங்கள் வீட்டு தேவைகளுக்கு ஒரே இடம்</p>
+
 </section>
 
 <section class="categories">
-    <button>🍚 Rice</button>
-    <button>🛢️ Oil</button>
-    <button>🌾 Dal</button>
-    <button>🍪 Biscuits</button>
-    <button>🧴 Shampoo</button>
-    <button>🧼 Soap</button>
+
+<button>🍚 Rice</button>
+<button>🛢️ Oil</button>
+<button>🌾 Dal</button>
+<button>🍪 Biscuits</button>
+<button>🧴 Shampoo</button>
+<button>🧼 Soap</button>
+
 </section>
 
 <h2 class="title">Today's Products</h2>
-<input type="text" id="search" placeholder="🔍 பொருட்களை தேடுங்கள்...">
+
+<input
+type="text"
+id="search"
+placeholder="🔍 பொருட்களை தேடுங்கள்...">
+
 <div id="products" class="products">
-
-<div class="product">
-    <p class="stock">✅ In Stock</p>
-<img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400" alt="Rice">
-<h3>Premium Rice 1 Kg</h3>
-<p>₹65</p>
-<button>🛒 Add to Cart</button>
 </div>
 
-<div class="product">
-<img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=400" alt="Oil">
-<h3>Cooking Oil 1L</h3>
-<p>₹180</p>
-<button onclick="orderProduct('Premium Rice 1 Kg',65)">
-    🛒 Order Now
-</button>
-</div>
-
-</div>
 </main>
 
-<script src="script.js"></script>
-    <script>
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  console.log("App can be installed!");
-});
-    </script>
-    <script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js")
-    .then(() => console.log("Service Worker Registered"));
-}
-    </script>
-    <script>
-function orderProduct(name, price) {
-    const message =
-    `வணக்கம்!\n\n📦 ${name}\n💰 ₹${price}`;
+<script type="module" src="script.js"></script>
 
-    window.open(
-        `https://wa.me/916369135650?text=${encodeURIComponent(message)}`,
-        "_blank"
-    );
+<script>
+if ("serviceWorker" in navigator) {
+navigator.serviceWorker
+.register("./service-worker.js");
 }
-    </script>
+</script>
 
 </body>
 </html>
-<button onclick="addToCart('Premium Rice 1 Kg',65)">
-    🛒 Add to Cart
-</button>
