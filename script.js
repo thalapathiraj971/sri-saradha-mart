@@ -97,4 +97,5 @@ document.getElementById("search").addEventListener("keyup", function () {
 });
 
 // Start
+console.log("SCRIPT WORKING");
 loadProducts();
