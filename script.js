@@ -1,82 +1,102 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getFirestore,
   collection,
   getDocs
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyBQehMWwcThf8NLMGeJIG-omcywEEiJpHs",
-  authDomain: "raj-mini-mart.firebaseapp.com",
-  projectId: "raj-mini-mart",
-  storageBucket: "raj-mini-mart.firebasestorage.app",
-  messagingSenderId: "490305070206",
-  appId: "1:490305070206:web:ff8214149720a7b8a1e42f"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "XXXXXXXX",
+  appId: "YOUR_APP_ID"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// Load Products
+async function loadProducts() {
+
+  const productsDiv = document.getElementById("products");
+  productsDiv.innerHTML = "";
+
+  const querySnapshot = await getDocs(collection(db, "products"));
+
+  querySnapshot.forEach((doc) => {
+
+    const product = doc.data();
+
+    productsDiv.innerHTML += `
+      <div class="product">
+
+        <img src="${product.image}" alt="${product.name}">
+
+        <h3>${product.name}</h3>
+
+        <p>₹${product.price}</p>
+
+        <p>${product.stock}</p>
+
+        <button onclick="addToCart('${product.name}', ${product.price})">
+          🛒 Add to Cart
+        </button>
+
+        <button onclick="orderProduct('${product.name}', ${product.price})">
+          WhatsApp Order
+        </button>
+
+      </div>
+    `;
+  });
+}
+
+// Cart
 let cartCount = 0;
 let total = 0;
 
-// Cart Function
-window.addToCart = function(name, price){
+window.addToCart = function(name, price) {
 
-    cartCount++;
-    total += price;
+  cartCount++;
+  total += price;
 
-    document.getElementById("cart-count").innerText = cartCount;
-    document.getElementById("total").innerText = total;
+  document.getElementById("cart-count").innerText = cartCount;
+  document.getElementById("total").innerText = total;
 
-    alert(name + " Cart-ல் சேர்க்கப்பட்டது!");
+  alert(name + " Cart-ல் சேர்க்கப்பட்டது!");
 };
 
 // WhatsApp Order
-window.orderProduct = function(name, price){
+window.orderProduct = function(name, price) {
 
-    const message =
+  const message =
     `வணக்கம்!\n\n` +
-    `📦 Product : ${name}\n` +
-    `💰 Price : ₹${price}`;
+    `பொருள்: ${name}\n` +
+    `விலை: ₹${price}`;
 
-    window.open(
-      `https://wa.me/916369135650?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
+  window.open(
+    `https://wa.me/916369135650?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
 };
 
-// Load Products
-async function loadProducts(){
+// Search
+document.getElementById("search").addEventListener("keyup", function () {
 
-    const snapshot = await getDocs(collection(db, "products"));
+  const value = this.value.toLowerCase();
 
-    const container = document.getElementById("products");
+  document.querySelectorAll(".product").forEach((product) => {
 
-    container.innerHTML = "";
+    const text = product.innerText.toLowerCase();
 
-    snapshot.forEach((doc)=>{
+    product.style.display =
+      text.includes(value) ? "block" : "none";
+  });
+});
 
-        const p = doc.data();
-
-        container.innerHTML += `
-        <div class="product">
-            <img src="${p.image}" width="150">
-            <h3>${p.name}</h3>
-            <p>₹${p.price}</p>
-            <p>${p.stock}</p>
-
-            <button onclick="addToCart('${p.name}',${p.price})">
-                🛒 Add to Cart
-            </button>
-
-            <button onclick="orderProduct('${p.name}',${p.price})">
-                WhatsApp Order
-            </button>
-        </div>
-        `;
-    });
-}
-
+// Start
 loadProducts();
