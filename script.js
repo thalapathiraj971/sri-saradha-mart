@@ -7,12 +7,12 @@ import {
 
 // Firebase Config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "XXXXXXXX",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBQehMWwcThf8NLMGeJIG-omcywEEiJpHs",
+  authDomain: "raj-mini-mart.firebaseapp.com",
+  projectId: "raj-mini-mart",
+  storageBucket: "raj-mini-mart.firebasestorage.app",
+  messagingSenderId: "490305070206",
+  appId: "1:490305070206:web:ff8214149720a7b8a1e42f"
 };
 
 // Initialize Firebase
