@@ -1,85 +1,82 @@
-const search = document.getElementById("search");
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
-search.addEventListener("keyup", function () {
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-    const value = search.value.toLowerCase();
+const firebaseConfig = {
+  apiKey: "AIzaSyBQehMWwcThf8NLMGeJIG-omcywEEiJpHs",
+  authDomain: "raj-mini-mart.firebaseapp.com",
+  projectId: "raj-mini-mart",
+  storageBucket: "raj-mini-mart.firebasestorage.app",
+  messagingSenderId: "490305070206",
+  appId: "1:490305070206:web:ff8214149720a7b8a1e42f"
+};
 
-    const products = document.querySelectorAll(".product");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    products.forEach((product) => {
-
-        const text = product.innerText.toLowerCase();
-
-        if(text.includes(value)){
-            product.style.display="block";
-        }else{
-            product.style.display="none";
-        }
-
-    });
-
-});
 let cartCount = 0;
 let total = 0;
 
-const buttons = document.querySelectorAll(".product button");
+// Cart Function
+window.addToCart = function(name, price){
 
-buttons.forEach((btn)=>{
-    btn.addEventListener("click",()=>{
-
-        cartCount++;
-        document.getElementById("cart-count").innerText = cartCount;
-
-        const price = Number(
-            btn.parentElement.querySelector("p").innerText.replace("₹","")
-        );
-
-        total += price;
-
-        document.getElementById("total").innerText = total;
-
-        alert("✅ பொருள் Cart-ல் சேர்க்கப்பட்டது");
-    });
-});
-function orderProduct(name, price) {
-  const message =
-    `வணக்கம்!%0A` +
-    `எனக்கு இந்த பொருள் வேண்டும்:%0A%0A` +
-    `📦 ${name}%0A` +
-    `💰 ₹${price}`;
-
-  window.open(
-    `https://wa.me/916369135650?text=${message}`,
-    "_blank"
-  );
-}
-let cart = [];
-let total = 0;
-
-function addToCart(name, price) {
-    cart.push({ name, price });
+    cartCount++;
     total += price;
 
-    document.getElementById("cart-count").innerText = cart.length;
+    document.getElementById("cart-count").innerText = cartCount;
     document.getElementById("total").innerText = total;
-}
-const search = document.getElementById("search");
 
-search.addEventListener("keyup", () => {
+    alert(name + " Cart-ல் சேர்க்கப்பட்டது!");
+};
 
-    let value = search.value.toLowerCase();
+// WhatsApp Order
+window.orderProduct = function(name, price){
 
-    let products = document.querySelectorAll(".product");
+    const message =
+    `வணக்கம்!\n\n` +
+    `📦 Product : ${name}\n` +
+    `💰 Price : ₹${price}`;
 
-    products.forEach((product) => {
+    window.open(
+      `https://wa.me/916369135650?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
+};
 
-        let name = product.querySelector("h3").innerText.toLowerCase();
+// Load Products
+async function loadProducts(){
 
-        if (name.includes(value)) {
-            product.style.display = "block";
-        } else {
-            product.style.display = "none";
-        }
+    const snapshot = await getDocs(collection(db, "products"));
+
+    const container = document.getElementById("products");
+
+    container.innerHTML = "";
+
+    snapshot.forEach((doc)=>{
+
+        const p = doc.data();
+
+        container.innerHTML += `
+        <div class="product">
+            <img src="${p.image}" width="150">
+            <h3>${p.name}</h3>
+            <p>₹${p.price}</p>
+            <p>${p.stock}</p>
+
+            <button onclick="addToCart('${p.name}',${p.price})">
+                🛒 Add to Cart
+            </button>
+
+            <button onclick="orderProduct('${p.name}',${p.price})">
+                WhatsApp Order
+            </button>
+        </div>
+        `;
     });
+}
 
-});
+loadProducts();
