@@ -41,8 +41,7 @@ async function loadProducts() {
       <div class="product">
 
         <img
-          src="${product.image}"
-          alt="${product.name}"
+          <img src="rice.jpg" alt="Rice">
           onerror="this.src='https://via.placeholder.com/300x200.png?text=No+Image';"
         >
 
