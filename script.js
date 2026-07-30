@@ -40,7 +40,7 @@ async function loadProducts() {
   `;
 });
 
-} // loadProducts() முடிவு
+} 
     
 
       <img
