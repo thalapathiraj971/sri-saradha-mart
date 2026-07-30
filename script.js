@@ -33,36 +33,76 @@ async function loadProducts() {
 
   querySnapshot.forEach((document) => {
 
-  const product = document.data();
+    const product = document.data();
 
-  productsDiv.innerHTML += `
-    ...
-  `;
+    productsDiv.innerHTML += `
+      <div class="product">
+
+        <img
+          src="${product.image}"
+          alt="${product.name}"
+          style="width:100%;height:200px;object-fit:cover;"
+          onerror="this.src='https://via.placeholder.com/300x200.png?text=No+Image'">
+
+        <h3>${product.name}</h3>
+
+        <p>₹${product.price}</p>
+
+        <p class="stock">${product.stock}</p>
+
+        <button onclick="addToCart('${product.name}', ${product.price})">
+          🛒 Add to Cart
+        </button>
+
+        <button onclick="orderProduct('${product.name}', ${product.price})">
+          📲 WhatsApp Order
+        </button>
+
+      </div>
+    `;
+  });
+}
+
+// Add To Cart
+window.addToCart = function(name, price) {
+
+  cartCount++;
+  total += price;
+
+  document.getElementById("cart-count").innerText = cartCount;
+  document.getElementById("total").innerText = total;
+
+  alert(name + " Cart-ல் சேர்க்கப்பட்டது!");
+};
+
+// WhatsApp Order
+window.orderProduct = function(name, price) {
+
+  const message =
+    `வணக்கம்!\n\n` +
+    `பொருள்: ${name}\n` +
+    `விலை: ₹${price}`;
+
+  window.open(
+    `https://wa.me/916369135650?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
+};
+
+// Search
+document.getElementById("search").addEventListener("keyup", function () {
+
+  const value = this.value.toLowerCase();
+
+  document.querySelectorAll(".product").forEach((product) => {
+
+    const text = product.innerText.toLowerCase();
+
+    product.style.display =
+      text.includes(value) ? "block" : "none";
+  });
 });
 
-} 
-    
-
-      <img
-        src="${product.image}"
-        alt="${product.name}"
-        style="width:100%;height:200px;object-fit:cover;"
-        onerror="this.src='https://via.placeholder.com/300x200.png?text=No+Image'">
-
-      <h3>${product.name}</h3>
-
-      <p>₹${product.price}</p>
-
-      <p class="stock">${product.stock}</p>
-
-      <button onclick="addToCart('${product.name}', ${product.price})">
-        🛒 Add to Cart
-      </button>
-
-      <button onclick="orderProduct('${product.name}', ${product.price})">
-        📲 WhatsApp Order
-      </button>
-
-    </div>
-  `;
-});
+// Start
+console.log("SCRIPT WORKING");
+loadProducts();
