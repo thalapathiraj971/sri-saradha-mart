@@ -68,7 +68,7 @@ window.addToCart = function(name, price) {
 
   cartCount++;
   total += price;
-
+document.getElementById(\"total\").innerText = total;
   document.getElementById("cart-count").innerText = cartCount;
   document.getElementById("total").innerText = total;
 
