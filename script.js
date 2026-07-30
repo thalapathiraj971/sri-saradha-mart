@@ -36,7 +36,12 @@ async function loadProducts() {
   const product = document.data();
 
   productsDiv.innerHTML += `
-    <div class="product">
+    ...
+  `;
+});
+
+} // loadProducts() முடிவு
+    
 
       <img
         src="${product.image}"
