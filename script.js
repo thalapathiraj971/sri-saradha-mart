@@ -101,7 +101,21 @@ document.getElementById("search").addEventListener("keyup", function () {
       text.includes(value) ? "block" : "none";
   });
 });
+window.filterProducts = function(category) {
 
+  document.querySelectorAll(".product").forEach((product) => {
+
+    const text = product.innerText.toLowerCase();
+
+    if (text.includes(category)) {
+      product.style.display = "block";
+    } else {
+      product.style.display = "none";
+    }
+
+  });
+
+};
 // Start
 console.log("SCRIPT WORKING");
 loadProducts();
