@@ -39,11 +39,10 @@ console.log(product.image);
     productsDiv.innerHTML += `
       <div class="product">
 
-  <img
-  src="${product.image || 'https://upload.wikimedia.org/wikipedia/commons/6/64/Rice_grains.jpg'}"
+<img
+  src="${product.image}"
   alt="${product.name}"
-  style="width:100%;height:200px;object-fit:cover;"
->
+  style="width:100%;height:200px;object-fit:cover;">
         <h3>${product.name}</h3>
 
         <p>₹${product.price}</p>
