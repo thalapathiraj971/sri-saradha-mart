@@ -39,10 +39,9 @@ async function loadProducts() {
       <div class="product">
 
         <img
-          src="${product.image}"
-          alt="${product.name}"
-          style="width:100%;height:200px;object-fit:cover;"
-          onerror="this.src='https://via.placeholder.com/300x200.png?text=No+Image'">
+  src="https://picsum.photos/300/200"
+  alt="TEST IMAGE"
+  style="width:100%;height:200px;object-fit:cover;">
 
         <h3>${product.name}</h3>
 
