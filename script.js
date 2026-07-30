@@ -34,7 +34,8 @@ async function loadProducts() {
   querySnapshot.forEach((document) => {
 
     const product = document.data();
-
+console.log(product);
+console.log(product.image);
     productsDiv.innerHTML += `
       <div class="product">
 
