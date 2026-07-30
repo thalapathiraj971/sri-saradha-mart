@@ -39,11 +39,11 @@ console.log(product.image);
     productsDiv.innerHTML += `
       <div class="product">
 
-        <img
-  src="https://picsum.photos/300/200"
-  alt="TEST IMAGE"
-  style="width:100%;height:200px;object-fit:cover;">
-
+  <img
+  src="${product.image}"
+  alt="${product.name}"
+  style="width:100%;height:200px;object-fit:cover;"
+  onerror="this.src='https://picsum.photos/300/200';">
         <h3>${product.name}</h3>
 
         <p>₹${product.price}</p>
