@@ -56,13 +56,15 @@ Total :
 
 <section class="categories">
 
-<button>🍚 Rice</button>
-<button>🛢️ Oil</button>
-<button>🌾 Dal</button>
-<button>🍪 Biscuits</button>
-<button>🧴 Shampoo</button>
-<button>🧼 Soap</button>
+<div class="categories">
 
+<button onclick="loadProducts()">🛒 All</button>
+<button onclick="filterProducts('rice')">🍚 Rice</button>
+<button onclick="filterProducts('oil')">🛢️ Oil</button>
+<button onclick="filterProducts('dal')">🌾 Dal</button>
+<button onclick="filterProducts('biscuit')">🍪 Biscuits</button>
+
+</div>
 </section>
 
 <h2 class="title">Today's Products</h2>
