@@ -34,7 +34,14 @@ window.checkout = function () {
 
   const customerAddress = prompt("📍 உங்கள் முகவரி:");
   if (!customerAddress) return;
-
+await addDoc(collection(db, "orders"), {
+    name: customerName,
+    phone: customerPhone,
+    address: customerAddress,
+    total: total,
+    status: "Pending",
+    createdAt: new Date().toISOString()
+});
   let orderList = "";
 
   cartItems.forEach((item) => {
