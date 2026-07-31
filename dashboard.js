@@ -89,12 +89,27 @@ async function loadProductList() {
         const product = docSnap.data();
 
         list.innerHTML += `
-            <div style="background:#fff;padding:10px;margin:10px 0;border-radius:8px;">
-                <b>${product.name}</b><br>
-                ₹${product.price}<br>
-                ${product.stock}
-            </div>
-        `;
+<div style="background:#fff;padding:10px;margin:10px 0;border-radius:8px;">
+
+<img src="${product.image}" 
+style="width:80px;height:80px;object-fit:cover;border-radius:8px;">
+
+<h3>${product.name}</h3>
+
+<p>₹${product.price}</p>
+
+<p>${product.stock}</p>
+
+<button onclick="alert('Edit feature next step')">
+✏️ Edit
+</button>
+
+<button onclick="alert('Delete feature next step')">
+🗑️ Delete
+</button>
+
+</div>
+`;
 
     });
 
