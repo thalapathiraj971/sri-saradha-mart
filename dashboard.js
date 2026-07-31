@@ -6,7 +6,8 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
-  doc
+  doc,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 // Firebase Configuration
