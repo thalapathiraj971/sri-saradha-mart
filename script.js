@@ -100,6 +100,10 @@ window.addToCart = function(name, price) {
 
   cartCount++;
   total += price;
+  cartItems.push({
+  name: name,
+  price: price
+});
 document.getElementById("total").innerText = total;
   document.getElementById("cart-count").innerText = cartCount;
   document.getElementById("total").innerText = total;
