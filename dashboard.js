@@ -76,3 +76,28 @@ window.deleteProduct = async function () {
         alert("❌ Error: " + error.message);
     }
 };
+// Load Products
+async function loadProductList() {
+
+    const list = document.getElementById("productList");
+    list.innerHTML = "";
+
+    const snapshot = await getDocs(collection(db, "products"));
+
+    snapshot.forEach((docSnap) => {
+
+        const product = docSnap.data();
+
+        list.innerHTML += `
+            <div style="background:#fff;padding:10px;margin:10px 0;border-radius:8px;">
+                <b>${product.name}</b><br>
+                ₹${product.price}<br>
+                ${product.stock}
+            </div>
+        `;
+
+    });
+
+}
+
+loadProductList();
