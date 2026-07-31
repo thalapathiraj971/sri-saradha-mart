@@ -19,7 +19,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-window.checkout = function () {
+window.checkout = async function () {
 
   if (cartItems.length === 0) {
     alert("🛒 Cart காலியாக உள்ளது!");
