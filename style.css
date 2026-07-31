@@ -141,3 +141,17 @@ border-radius:8px;
     object-fit: cover;
     display: block;
 }
+.checkout-btn{
+    background:#ff9800;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.checkout-btn:hover{
+    background:#e68900;
+}
