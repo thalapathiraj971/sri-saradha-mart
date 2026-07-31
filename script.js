@@ -22,7 +22,39 @@ const db = getFirestore(app);
 // Cart Variables
 let cartCount = 0;
 let total = 0;
+window.checkout = function () {
 
+  if (cartCount === 0) {
+    alert("🛒 Cart காலியாக உள்ளது!");
+    return;
+  }
+
+  const customerName = prompt("👤 உங்கள் பெயர்:");
+  if (!customerName) return;
+
+  const customerPhone = prompt("📞 உங்கள் மொபைல் எண்:");
+  if (!customerPhone) return;
+
+  const customerAddress = prompt("📍 உங்கள் முகவரி:");
+  if (!customerAddress) return;
+
+  const message =
+`🛒 ஸ்ரீ சாரதா மார்ட்
+
+👤 பெயர்: ${customerName}
+📞 மொபைல்: ${customerPhone}
+📍 முகவரி: ${customerAddress}
+
+💰 மொத்தம்: ₹${total}
+
+தயவுசெய்து என் ஆர்டரை உறுதிப்படுத்துங்கள்.`;
+
+  window.open(
+    `https://wa.me/916369135650?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
+
+};
 // Load Products
 async function loadProducts() {
 
