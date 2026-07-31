@@ -47,35 +47,48 @@ window.addProduct = async function () {
 };
 
 // Edit Product
-window.editProduct = async function () {
+window.editProduct = async function(id, name, price, image, stock){
 
-    const id = document.getElementById("productId").value;
-    const newPrice = prompt("Enter New Price");
+    const newPrice = prompt("New Price", price);
+    if(newPrice == null) return;
 
-    try {
-        await updateDoc(doc(db, "products", id), {
-            price: Number(newPrice)
+    const newStock = prompt("Stock", stock);
+    if(newStock == null) return;
+
+    try{
+
+        await updateDoc(doc(db,"products",id),{
+            price:Number(newPrice),
+            stock:newStock
         });
 
-        alert("✏️ Product Updated!");
-    } catch (error) {
-        alert("❌ Error: " + error.message);
+        alert("✅ Product Updated");
+
+        loadProductList();
+
+    }catch(error){
+        alert(error.message);
     }
-};
 
-// Delete Product
-window.deleteProduct = async function () {
+}
 
-    const id = document.getElementById("productId").value;
+window.deleteProduct = async function(id){
 
-    try {
-        await deleteDoc(doc(db, "products", id));
+    if(!confirm("இந்த Product-ஐ Delete செய்யவா?")) return;
 
-        alert("🗑️ Product Deleted!");
-    } catch (error) {
-        alert("❌ Error: " + error.message);
+    try{
+
+        await deleteDoc(doc(db,"products",id));
+
+        alert("🗑️ Product Deleted");
+
+        loadProductList();
+
+    }catch(error){
+        alert(error.message);
     }
-};
+
+}
 // Load Products
 async function loadProductList() {
 
