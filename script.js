@@ -137,7 +137,7 @@ window.orderProduct = function(name, price) {
     `விலை: ₹${price}`;
 
   window.open(
-    `https://wa.me/916369135650?text=${encodeURIComponent(message)}`,
+    `https://wa.me/918760534354?text=${encodeURIComponent(message)}`,
     "_blank"
   );
 };
