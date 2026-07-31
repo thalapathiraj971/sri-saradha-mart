@@ -89,9 +89,9 @@ async function loadProductList() {
         const product = docSnap.data();
 
         list.innerHTML += `
-<div style="background:#fff;padding:10px;margin:10px 0;border-radius:8px;">
+<div style="background:#fff;padding:10px;margin:10px 0;border-radius:10px;box-shadow:0 2px 5px #ccc;">
 
-<img src="${product.image}" 
+<img src="${product.image}"
 style="width:80px;height:80px;object-fit:cover;border-radius:8px;">
 
 <h3>${product.name}</h3>
@@ -100,11 +100,11 @@ style="width:80px;height:80px;object-fit:cover;border-radius:8px;">
 
 <p>${product.stock}</p>
 
-<button onclick="alert('Edit feature next step')">
+<button onclick="editProduct('${docSnap.id}','${product.name}',${product.price},'${product.image}','${product.stock}')">
 ✏️ Edit
 </button>
 
-<button onclick="alert('Delete feature next step')">
+<button onclick="deleteProduct('${docSnap.id}')">
 🗑️ Delete
 </button>
 
