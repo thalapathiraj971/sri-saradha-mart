@@ -182,3 +182,29 @@ document.getElementById("installBtn").addEventListener("click", async () => {
 
     console.log(`User response: ${outcome}`);
 });
+function updateShopStatus() {
+
+    const now = new Date();
+
+    const hour = now.getHours();
+
+    const statusDiv = document.getElementById("shop-status");
+
+    // காலை 7 மணி முதல் இரவு 10 மணி வரை
+    if (hour >= 7 && hour < 22) {
+
+        statusDiv.innerHTML =
+        "🟢 Shop Open<br><small>7:00 AM - 10:00 PM</small>";
+
+        statusDiv.style.color = "green";
+
+    } else {
+
+        statusDiv.innerHTML =
+        "🔴 Shop Closed<br><small>Opens at 7:00 AM</small>";
+
+        statusDiv.style.color = "red";
+    }
+}
+
+updateShopStatus();
