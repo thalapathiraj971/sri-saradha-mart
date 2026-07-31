@@ -1,34 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="ta">
 <head>
-<title>SRI SARADHA MART - Admin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.login-box{
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+    width:300px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#0b7a3b;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#095d2d;
+}
+</style>
+
 </head>
 
 <body>
 
-<h2>SRI SARADHA MART</h2>
+<div class="login-box">
 
-<input type="text" id="user" placeholder="Username">
-<br><br>
+<h2>🔐 Admin Login</h2>
 
-<input type="password" id="pass" placeholder="Password">
-<br><br>
+<input type="text" id="username" placeholder="Username">
+
+<input type="password" id="password" placeholder="Password">
 
 <button onclick="login()">Login</button>
 
+</div>
+
 <script>
+
 function login(){
 
-let u = document.getElementById("user").value;
-let p = document.getElementById("pass").value;
+const username=document.getElementById("username").value;
 
-if(u === "admin" && p === "123456"){
-    window.location.href = "dashboard.html";
+const password=document.getElementById("password").value;
+
+if(username==="admin" && password==="1234"){
+
+window.location.href="dashboard.html";
+
 }else{
-    alert("Wrong Username or Password");
+
+alert("❌ Username அல்லது Password தவறு");
+
 }
 
 }
+
 </script>
 
 </body>
