@@ -22,6 +22,7 @@ const db = getFirestore(app);
 // Cart Variables
 let cartCount = 0;
 let total = 0;
+let cartItems = [];
 window.checkout = function () {
 
   if (cartCount === 0) {
