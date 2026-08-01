@@ -54,12 +54,22 @@ async function loadOrders() {
 
         <p>📦 ${order.status}</p>
 
-${order.status.trim() === "Pending" ? `
+${order.status === "Pending" ? `
 <button onclick="markDelivered('${docSnap.id}')">
     ✅ Delivered
 </button>
 ` : ""}
 
+<a href="https://wa.me/91${order.phone}" target="_blank">
+<button style="background:#25D366;">
+💬 WhatsApp
+</button>
+</a>
+<a href="tel:${order.phone}">
+<button style="background:#2196F3;">
+📞 Call Customer
+</button>
+</a>
 </div>
 `;
         
