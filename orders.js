@@ -19,7 +19,17 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+window.markDelivered = async function(id){
 
+    await updateDoc(doc(db,"orders",id),{
+        status:"Delivered"
+    });
+
+    alert("✅ Order Delivered");
+
+    loadOrders();
+
+}
 async function loadOrders() {
 
     const list = document.getElementById("ordersList");
@@ -43,9 +53,15 @@ async function loadOrders() {
         <p>💰 ₹${order.total}</p>
 
         <p>📦 ${order.status}</p>
+        
 
-        </div>
-        `;
+<button onclick="markDelivered('${docSnap.id}')">
+    ✅ Delivered
+</button>
+
+</div>
+`;
+        
     });
 
 }
