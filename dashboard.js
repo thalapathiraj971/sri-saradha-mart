@@ -138,22 +138,33 @@ async function loadDashboard(){
     let orders = 0;
     let sales = 0;
     let pending = 0;
+    let todaySales = 0;
     snapshot.forEach(docSnap=>{
 
         const order = docSnap.data();
 
         orders++;
 
-        sales += Number(order.total);
-        if(order.status === "Pending"){
+sales += Number(order.total);
+
+const today = new Date().toISOString().slice(0,10);
+
+if(order.createdAt && order.createdAt.startsWith(today)){
+    todaySales += Number(order.total);
+}
+
+if(order.status === "Pending"){
     pending++;
-        }
+}
     });
 
     document.getElementById("totalOrders").innerText = orders;
 
-    document.getElementById("totalSales").innerText = "₹" + sales;
-    document.getElementById("pendingOrders").innerText = pending;
+document.getElementById("totalSales").innerText = "₹" + sales;
+
+document.getElementById("pendingOrders").innerText = pending;
+
+document.getElementById("todaySales").innerText = "₹" + todaySales;
 }
 
 loadDashboard();
