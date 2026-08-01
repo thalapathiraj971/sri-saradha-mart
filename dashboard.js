@@ -135,7 +135,7 @@ async function loadDashboard(){
 
     let orders = 0;
     let sales = 0;
-
+    let pending = 0;
     snapshot.forEach(docSnap=>{
 
         const order = docSnap.data();
@@ -143,13 +143,15 @@ async function loadDashboard(){
         orders++;
 
         sales += Number(order.total);
-
+        if(order.status === "Pending"){
+    pending++;
+        }
     });
 
     document.getElementById("totalOrders").innerText = orders;
 
     document.getElementById("totalSales").innerText = "₹" + sales;
-
+    document.getElementById("pendingOrders").innerText = pending;
 }
 
 loadDashboard();
