@@ -94,7 +94,7 @@ async function loadProductList() {
 
     const list = document.getElementById("productList");
     list.innerHTML = "";
-
+    let lowStock = 0;
     const snapshot = await getDocs(collection(db, "products"));
 
     snapshot.forEach((docSnap) => {
@@ -138,7 +138,6 @@ async function loadDashboard(){
     let orders = 0;
     let sales = 0;
     let pending = 0;
-    let lowStock = 0;
     snapshot.forEach(docSnap=>{
 
         const order = docSnap.data();
