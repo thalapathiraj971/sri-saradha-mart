@@ -100,7 +100,9 @@ async function loadProductList() {
     snapshot.forEach((docSnap) => {
 
         const product = docSnap.data();
-
+        if (Number(product.stock) <= 5) {
+    lowStock++;
+        }
         list.innerHTML += `
 <div style="background:#fff;padding:10px;margin:10px 0;border-radius:10px;box-shadow:0 2px 5px #ccc;">
 
@@ -136,6 +138,7 @@ async function loadDashboard(){
     let orders = 0;
     let sales = 0;
     let pending = 0;
+    let lowStock = 0;
     snapshot.forEach(docSnap=>{
 
         const order = docSnap.data();
