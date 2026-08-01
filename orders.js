@@ -54,9 +54,11 @@ async function loadOrders() {
 
         <p>📦 ${order.status}</p>
 
+${order.status === "Pending" ? `
 <button onclick="markDelivered('${docSnap.id}')">
     ✅ Delivered
 </button>
+` : ""}
 
 </div>
 `;
