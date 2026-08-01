@@ -53,7 +53,6 @@ async function loadOrders() {
         <p>💰 ₹${order.total}</p>
 
         <p>📦 ${order.status}</p>
-        
 
 <button onclick="markDelivered('${docSnap.id}')">
     ✅ Delivered
@@ -61,6 +60,9 @@ async function loadOrders() {
 
 </div>
 `;
+        
+
+
         
     });
 
