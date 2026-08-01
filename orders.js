@@ -5,7 +5,8 @@ import {
   collection,
   getDocs,
   doc,
-  updateDoc
+  updateDoc,
+  deleteDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -19,63 +20,80 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-window.markDelivered = async function(id){
 
+window.markDelivered = async function(id){
     await updateDoc(doc(db,"orders",id),{
         status:"Delivered"
     });
 
     alert("✅ Order Delivered");
-
     loadOrders();
+}
+
+window.deleteOrder = async function(id){
+
+    if(confirm("Delete this order?")){
+
+        await deleteDoc(doc(db,"orders",id));
+
+        alert("🗑️ Order Deleted");
+
+        loadOrders();
+
+    }
 
 }
-async function loadOrders() {
+
+async function loadOrders(){
 
     const list = document.getElementById("ordersList");
-    list.innerHTML = "";
 
-    const snapshot = await getDocs(collection(db, "orders"));
+    list.innerHTML="";
 
-    snapshot.forEach((docSnap) => {
+    const snapshot=await getDocs(collection(db,"orders"));
 
-        const order = docSnap.data();
+    snapshot.forEach((docSnap)=>{
 
-        list.innerHTML += `
-        <div style="background:#fff;padding:15px;margin:10px;border-radius:10px;box-shadow:0 2px 5px #ccc;">
+        const order=docSnap.data();
 
-        <h3>👤 ${order.name}</h3>
+        list.innerHTML+=`
 
-        <p>📞 ${order.phone}</p>
+<div style="background:#fff;padding:15px;margin:10px;border-radius:10px;box-shadow:0 2px 5px #ccc;">
 
-        <p>📍 ${order.address}</p>
+<h3>👤 ${order.name}</h3>
 
-        <p>💰 ₹${order.total}</p>
+<p>📞 ${order.phone}</p>
 
-        <p>📦 ${order.status}</p>
+<p>📍 ${order.address}</p>
 
-${order.status === "Pending" ? `
+<p>💰 ₹${order.total}</p>
+
+<p>📦 <b style="color:${order.status=="Pending"?"orange":"green"};">${order.status}</b></p>
+
+${order.status=="Pending"?`
+
 <button onclick="markDelivered('${docSnap.id}')">
-    ✅ Delivered
+✅ Delivered
 </button>
-` : ""}
 
-<a href="https://wa.me/91${order.phone}" target="_blank">
-<button style="background:#25D366;">
+`:``}
+
+<button onclick="window.open('https://wa.me/91${order.phone}','_blank')">
 💬 WhatsApp
 </button>
-</a>
-<a href="tel:${order.phone}">
-<button style="background:#2196F3;">
-📞 Call Customer
+
+<button onclick="window.location.href='tel:${order.phone}'">
+📞 Call
 </button>
-</a>
+
+<button onclick="deleteOrder('${docSnap.id}')">
+🗑 Delete
+</button>
+
 </div>
+
 `;
-        
 
-
-        
     });
 
 }
