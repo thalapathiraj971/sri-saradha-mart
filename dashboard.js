@@ -129,3 +129,27 @@ style="width:80px;height:80px;object-fit:cover;border-radius:8px;">
 }
 
 loadProductList();
+async function loadDashboard(){
+
+    const snapshot = await getDocs(collection(db,"orders"));
+
+    let orders = 0;
+    let sales = 0;
+
+    snapshot.forEach(docSnap=>{
+
+        const order = docSnap.data();
+
+        orders++;
+
+        sales += Number(order.total);
+
+    });
+
+    document.getElementById("totalOrders").innerText = orders;
+
+    document.getElementById("totalSales").innerText = "₹" + sales;
+
+}
+
+loadDashboard();
