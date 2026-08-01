@@ -157,3 +157,23 @@ async function loadDashboard(){
 }
 
 loadDashboard();
+window.searchProduct = function () {
+
+    const input = document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+    const products = document.querySelectorAll("#productList div");
+
+    products.forEach(product => {
+
+        if (product.innerText.toLowerCase().includes(input)) {
+            product.style.display = "";
+        } else {
+            product.style.display = "none";
+        }
+
+    });
+
+}
