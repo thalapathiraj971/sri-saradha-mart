@@ -166,8 +166,13 @@ document.getElementById("pendingOrders").innerText = pending;
 
 document.getElementById("todaySales").innerText = "₹" + todaySales;
 }
-
+if (pending > 0) {
+    document.title = "🔔 New Order (" + pending + ")";
+} else {
+    document.title = "ஸ்ரீ சாரதா மார்ட் - Dashboard";
+}
 loadDashboard();
+setInterval(loadDashboard, 5000);
 window.searchProduct = function () {
 
     const input = document
