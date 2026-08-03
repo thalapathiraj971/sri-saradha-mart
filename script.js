@@ -25,15 +25,30 @@ window.checkout = async function () {
     alert("🛒 Cart காலியாக உள்ளது!");
     return;
   }
+let customerName = localStorage.getItem("customerName");
 
-  const customerName = prompt("👤 உங்கள் பெயர்:");
-  if (!customerName) return;
+if (!customerName) {
+    customerName = prompt("👤 உங்கள் பெயர்:");
+    if (!customerName) return;
+    localStorage.setItem("customerName", customerName);
+}
 
-  const customerPhone = prompt("📞 உங்கள் மொபைல் எண்:");
-  if (!customerPhone) return;
+let customerPhone = localStorage.getItem("customerPhone");
 
-  const customerAddress = prompt("📍 உங்கள் முகவரி:");
-  if (!customerAddress) return;
+if (!customerPhone) {
+    customerPhone = prompt("📞 உங்கள் மொபைல் எண்:");
+    if (!customerPhone) return;
+    localStorage.setItem("customerPhone", customerPhone);
+}
+
+let customerAddress = localStorage.getItem("customerAddress");
+
+if (!customerAddress) {
+    customerAddress = prompt("📍 உங்கள் முகவரி:");
+    if (!customerAddress) return;
+    localStorage.setItem("customerAddress", customerAddress);
+}
+  
 await addDoc(collection(db, "orders"), {
     name: customerName,
     phone: customerPhone,
