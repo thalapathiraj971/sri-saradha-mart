@@ -31,7 +31,7 @@ async function loadProducts() {
         <img src="${p.image}" alt="${p.name}">
         <h3>${p.name}</h3>
         <p>₹${p.price}</p>
-        <a href="https://wa.me/916369135650" class="btn">Order on WhatsApp</a>
+        <a href="https://wa.me/918760534354" class="btn">Order on WhatsApp</a>
       </div>
     `;
   });
