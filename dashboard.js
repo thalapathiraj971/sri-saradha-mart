@@ -163,22 +163,27 @@ if(order.status === "Pending"){
 document.getElementById("totalSales").innerText = "₹" + sales;
 
 document.getElementById("pendingOrders").innerText = pending;
-
-document.getElementById("todaySales").innerText = "₹" + todaySales;
-}
 if (pending > 0) {
+    document.getElementById("orderAlert").style.display = "block";
+    document.getElementById("pendingCount").innerText = pending;
+} else {
+    document.getElementById("orderAlert").style.display = "none";
+}
+document.getElementById("todaySales").innerText = "₹" + todaySales;
+
+if (pending > 0) {
+    document.getElementById("orderAlert").style.display = "block";
+    document.getElementById("pendingCount").innerText = pending;
+
     document.title = "🔔 New Order (" + pending + ")";
 } else {
+    document.getElementById("orderAlert").style.display = "none";
+
     document.title = "ஸ்ரீ சாரதா மார்ட் - Dashboard";
 }
-if (pending > 0 && Notification.permission === "granted") {
-
-    new Notification("🛒 புதிய Order வந்துள்ளது!", {
-        body: pending + " Pending Order(s)",
-        icon: "logo.png"
-    });
 
 }
+
 loadDashboard();
 setInterval(loadDashboard, 5000);
 window.searchProduct = function () {
