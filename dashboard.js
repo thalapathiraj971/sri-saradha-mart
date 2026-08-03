@@ -171,6 +171,14 @@ if (pending > 0) {
 } else {
     document.title = "ஸ்ரீ சாரதா மார்ட் - Dashboard";
 }
+if (pending > 0 && Notification.permission === "granted") {
+
+    new Notification("🛒 புதிய Order வந்துள்ளது!", {
+        body: pending + " Pending Order(s)",
+        icon: "logo.png"
+    });
+
+}
 loadDashboard();
 setInterval(loadDashboard, 5000);
 window.searchProduct = function () {
