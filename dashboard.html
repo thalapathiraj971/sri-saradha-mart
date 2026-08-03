@@ -141,7 +141,11 @@ function logout(){
     window.location.href="admin.html";
 }
 </script>
-
+<script>
+if ("Notification" in window) {
+    Notification.requestPermission();
+}
+</script>
 </body>
 </html>
 
