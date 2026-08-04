@@ -206,3 +206,34 @@ window.searchProduct = function () {
     });
 
 }
+window.saveOffer = async function(){
+
+    const offer =
+    document.getElementById("offerText").value;
+
+    await setDoc(
+        doc(db,"settings","offer"),
+        {
+            text: offer
+        }
+    );
+
+    alert("✅ Offer Saved");
+
+}
+
+async function loadOffer(){
+
+    const snap =
+    await getDoc(doc(db,"settings","offer"));
+
+    if(snap.exists()){
+
+        document.getElementById("offerText").value =
+        snap.data().text;
+
+    }
+
+}
+
+loadOffer();
