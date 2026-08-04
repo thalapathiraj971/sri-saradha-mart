@@ -190,6 +190,20 @@ window.filterProducts = function(category) {
 // Start
 console.log("SCRIPT WORKING");
 loadProducts();
+async function loadOffer() {
+
+    const snap = await getDoc(doc(db, "settings", "offer"));
+
+    if (snap.exists()) {
+        document.getElementById("offerBanner").innerHTML =
+            "🎁 " + snap.data().text;
+    } else {
+        document.getElementById("offerBanner").style.display = "none";
+    }
+
+}
+
+loadOffer();
 let deferredPrompt;
 
 window.addEventListener('beforeinstallprompt', (e) => {
