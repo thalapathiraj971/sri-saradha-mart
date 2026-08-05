@@ -144,11 +144,7 @@ document.getElementById("cart-count").innerText = cartCount;
 document.getElementById("total").innerText = total;
 
 updateProgress();
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
-document.getElementById("total").innerText = total;
-  document.getElementById("cart-count").innerText = cartCount;
-  document.getElementById("total").innerText = total;
-  updateProgress();
+
   alert(name + " Cart-ல் சேர்க்கப்பட்டது!");
 };
 
