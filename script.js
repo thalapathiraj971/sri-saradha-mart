@@ -282,6 +282,16 @@ function updateProgress() {
     } else {
         fill.style.background = "#4CAF50";
     }
+  const checkoutBtn = document.getElementById("checkoutBtn");
+
+if (total >= 300) {
+    checkoutBtn.disabled = false;
+    checkoutBtn.style.opacity = "1";
+} else {
+    checkoutBtn.disabled = true;
+    checkoutBtn.style.opacity = "0.5";
 }
+}
+
 updateShopStatus();
 updateProgress();
