@@ -250,4 +250,31 @@ function updateShopStatus() {
     }
 }
 
+function updateProgress() {
+
+    let percent = (total / 300) * 100;
+
+    if (percent > 100) percent = 100;
+    if (percent < 0) percent = 0;
+
+    const fill = document.getElementById("progressFill");
+    const text = document.getElementById("progressText");
+
+    fill.style.width = percent + "%";
+
+    if (total < 300) {
+        text.innerHTML = `₹${total} / ₹300 <br>⚠️ இன்னும் ₹${300-total} வாங்கினால் Checkout செய்யலாம்`;
+    } else {
+        text.innerHTML = `🎉 Minimum Order Completed (₹${total})`;
+    }
+
+    if (total < 200) {
+        fill.style.background = "#ff3b30";
+    } else if (total < 300) {
+        fill.style.background = "#ff9800";
+    } else {
+        fill.style.background = "#4CAF50";
+    }
+}
+
 updateProgress();
