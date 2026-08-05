@@ -86,9 +86,9 @@ ${orderList}
 
 };
 // Cart Variables
-let cartCount = 0;
-let total = 0;
-let cartItems = [];
+let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+let cartCount = cartItems.length;
+let total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
 // Load Products
 async function loadProducts() {
@@ -190,6 +190,10 @@ window.filterProducts = function(category) {
 // Start
 console.log("SCRIPT WORKING");
 loadProducts();
+document.getElementById("cart-count").innerText = cartCount;
+document.getElementById("total").innerText = total;
+
+updateProgress();
 async function loadOffer() {
 
     const snap = await getDoc(doc(db, "settings", "offer"));
