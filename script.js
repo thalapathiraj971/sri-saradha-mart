@@ -132,12 +132,18 @@ console.log(product.image);
 // Add To Cart
 window.addToCart = function(name, price) {
 
-  cartCount++;
   total += price;
   cartItems.push({
   name: name,
   price: price
 });
+  cartCount = cartItems.length;
+localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+document.getElementById("cart-count").innerText = cartCount;
+document.getElementById("total").innerText = total;
+
+updateProgress();
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
 document.getElementById("total").innerText = total;
   document.getElementById("cart-count").innerText = cartCount;
