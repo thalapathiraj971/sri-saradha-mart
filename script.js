@@ -165,7 +165,26 @@ window.orderProduct = function(name, price) {
     "_blank"
   );
 };
+window.viewCart = function () {
 
+    if (cartItems.length === 0) {
+        alert("🛒 Cart காலியாக உள்ளது!");
+        return;
+    }
+
+    let items = "";
+
+    cartItems.forEach((item, index) => {
+        items += `${index + 1}. ${item.name} - ₹${item.price}\n`;
+    });
+
+    alert(
+        "🛒 உங்கள் Cart\n\n" +
+        items +
+        "\n----------------------\n" +
+        "Total : ₹" + total
+    );
+};
 // Search
 document.getElementById("search").addEventListener("keyup", function () {
 
