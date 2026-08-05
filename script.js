@@ -138,6 +138,7 @@ window.addToCart = function(name, price) {
   name: name,
   price: price
 });
+  localStorage.setItem("cartItems", JSON.stringify(cartItems));
 document.getElementById("total").innerText = total;
   document.getElementById("cart-count").innerText = cartCount;
   document.getElementById("total").innerText = total;
@@ -276,5 +277,5 @@ function updateProgress() {
         fill.style.background = "#4CAF50";
     }
 }
-
+updateShopStatus();
 updateProgress();
