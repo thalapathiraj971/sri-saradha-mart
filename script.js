@@ -246,36 +246,4 @@ function updateShopStatus() {
     }
 }
 
-updateShopStatus();
-function updateProgress(){
-
-let percent = (total / 300) * 100;
-
-if(percent > 100){
-percent = 100;
-}
-
-document.getElementById("progressFill").style.width = percent + "%";
-
-document.getElementById("progressText").innerHTML =
-`₹${total} / ₹300`;
-
-if(total < 200){
-
-document.getElementById("progressFill").style.background="#ff3b30";
-
-}else if(total < 300){
-
-document.getElementById("progressFill").style.background="#ff9800";
-
-}else{
-
-document.getElementById("progressFill").style.background="#4CAF50";
-
-document.getElementById("progressText").innerHTML =
-`🎉 Minimum Order Completed (₹${total})`;
-
-}
-
-}
 updateProgress();
