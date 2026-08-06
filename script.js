@@ -161,25 +161,64 @@ window.orderProduct = function(name, price) {
     "_blank"
   );
 };
+window.closeCart = function () {
+    document.getElementById("cartModal").style.display = "none";
+}
+
+window.removeItem = function(index){
+
+    total -= cartItems[index].price;
+
+    cartItems.splice(index,1);
+
+    cartCount = cartItems.length;
+
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+    document.getElementById("cart-count").innerText = cartCount;
+    document.getElementById("total").innerText = total;
+
+    updateProgress();
+
+    viewCart();
+}
+
+window.clearCart = function(){
+
+    cartItems = [];
+    total = 0;
+    cartCount = 0;
+
+    localStorage.removeItem("cartItems");
+
+    document.getElementById("cart-count").innerText = 0;
+    document.getElementById("total").innerText = 0;
+
+    updateProgress();
+
+    closeCart();
+}
 window.viewCart = function () {
 
-    if (cartItems.length === 0) {
-        alert("🛒 Cart காலியாக உள்ளது!");
-        return;
-    }
+    const cartList = document.getElementById("cartList");
 
-    let items = "";
+    cartList.innerHTML = "";
 
     cartItems.forEach((item, index) => {
-        items += `${index + 1}. ${item.name} - ₹${item.price}\n`;
+
+        cartList.innerHTML += `
+        <div style="margin-bottom:10px;">
+            <b>${item.name}</b><br>
+            ₹${item.price}
+            <button onclick="removeItem(${index})">❌</button>
+        </div>
+        `;
+
     });
 
-    alert(
-        "🛒 உங்கள் Cart\n\n" +
-        items +
-        "\n----------------------\n" +
-        "Total : ₹" + total
-    );
+    document.getElementById("cartTotal").innerText = total;
+
+    document.getElementById("cartModal").style.display = "flex";
 };
 // Search
 document.getElementById("search").addEventListener("keyup", function () {
