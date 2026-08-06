@@ -219,6 +219,9 @@ margin-top:10px;
     background:rgba(0,0,0,0.6);
     z-index:9999;
 }
+.cart-modal.show{
+    display:flex;
+}
 
 .cart-content{
     position:relative;
