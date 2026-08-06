@@ -223,6 +223,7 @@ margin-top:10px;
 }
 
 .cart-content{
+    position:relative;
     background:#fff;
     width:90%;
     max-width:400px;
