@@ -218,8 +218,6 @@ margin-top:10px;
     height:100%;
     background:rgba(0,0,0,0.6);
     z-index:9999;
-    justify-content:center;
-    align-items:center;
 }
 
 .cart-content{
@@ -231,6 +229,10 @@ margin-top:10px;
     border-radius:15px;
     max-height:80vh;
     overflow:auto;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
 }
 
 .cart-content button{
