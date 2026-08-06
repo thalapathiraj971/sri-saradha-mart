@@ -162,7 +162,7 @@ window.orderProduct = function(name, price) {
   );
 };
 window.closeCart = function () {
-    document.getElementById("cartModal").style.display = "none";
+    document.getElementById("cartModal").classList.remove("show");
 }
 
 window.removeItem = function(index){
@@ -218,7 +218,7 @@ window.viewCart = function () {
 
     document.getElementById("cartTotal").innerText = total;
 
-    document.getElementById("cartModal").style.display = "flex";
+    document.getElementById("cartModal").classList.add("show");
 };
 // Search
 document.getElementById("search").addEventListener("keyup", function () {
