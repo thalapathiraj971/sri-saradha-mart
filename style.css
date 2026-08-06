@@ -225,6 +225,10 @@ margin-top:10px;
 
 .cart-content{
     position:relative;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    
     background:#fff;
     width:90%;
     max-width:400px;
@@ -232,10 +236,7 @@ margin-top:10px;
     border-radius:15px;
     max-height:80vh;
     overflow:auto;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
+    
 }
 
 .cart-content button{
