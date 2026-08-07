@@ -1,4 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
   getFirestore,
   collection,
@@ -8,7 +9,11 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Firebase Config
+
+// ===============================
+// FIREBASE CONFIG
+// ===============================
+
 const firebaseConfig = {
   apiKey: "AIzaSyBQehMWwcThf8NLMGeJIG-omcywEEiJpHs",
   authDomain: "raj-mini-mart.firebaseapp.com",
@@ -18,61 +23,592 @@ const firebaseConfig = {
   appId: "1:490305070206:web:ff8214149720a7b8a1e42f"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-window.checkout = async function () {
 
-  if (cartItems.length === 0) {
-    alert("🛒 Cart காலியாக உள்ளது!");
+
+// ===============================
+// CART VARIABLES
+// ===============================
+
+let cartItems =
+  JSON.parse(localStorage.getItem("cartItems")) || [];
+
+
+// Convert old cart format to quantity format
+cartItems = cartItems.map(item => ({
+  name: item.name,
+  price: Number(item.price),
+  quantity: Number(item.quantity) || 1
+}));
+
+
+// ===============================
+// CART TOTAL
+// ===============================
+
+function getCartTotal() {
+
+  return cartItems.reduce(
+    (sum, item) =>
+      sum + (Number(item.price) * Number(item.quantity)),
+    0
+  );
+}
+
+
+// ===============================
+// UPDATE CART UI
+// ===============================
+
+function updateCartUI() {
+
+  const cartCountElement =
+    document.getElementById("cart-count");
+
+  const totalElement =
+    document.getElementById("total");
+
+  const cartCount =
+    cartItems.reduce(
+      (sum, item) => sum + Number(item.quantity),
+      0
+    );
+
+  const total = getCartTotal();
+
+  if (cartCountElement) {
+    cartCountElement.innerText = cartCount;
+  }
+
+  if (totalElement) {
+    totalElement.innerText = total;
+  }
+
+  localStorage.setItem(
+    "cartItems",
+    JSON.stringify(cartItems)
+  );
+
+  updateProgress();
+}
+
+
+// ===============================
+// ADD TO CART
+// ===============================
+
+window.addToCart = function(name, price) {
+
+  price = Number(price);
+
+  const existingItem =
+    cartItems.find(item => item.name === name);
+
+  if (existingItem) {
+
+    existingItem.quantity += 1;
+
+  } else {
+
+    cartItems.push({
+      name: name,
+      price: price,
+      quantity: 1
+    });
+
+  }
+
+  updateCartUI();
+
+  alert("🛒 " + name + " Cart-ல் சேர்க்கப்பட்டது!");
+};
+
+
+// ===============================
+// VIEW CART
+// ===============================
+
+window.viewCart = function() {
+
+  const cartModal =
+    document.getElementById("cartModal");
+
+  const cartList =
+    document.getElementById("cartList");
+
+  const cartTotal =
+    document.getElementById("cartTotal");
+
+  if (!cartModal || !cartList) {
+    console.log("Cart elements not found");
     return;
   }
-let customerName = localStorage.getItem("customerName");
 
-if (!customerName) {
-    customerName = prompt("👤 உங்கள் பெயர்:");
+  cartList.innerHTML = "";
+
+  if (cartItems.length === 0) {
+
+    cartList.innerHTML = `
+      <p style="
+        text-align:center;
+        padding:20px;
+        color:#777;
+        font-weight:bold;
+      ">
+        🛒 Cart காலியாக உள்ளது
+      </p>
+    `;
+
+  } else {
+
+    cartItems.forEach((item, index) => {
+
+      cartList.innerHTML += `
+
+        <div class="cart-item"
+             style="
+               padding:12px 0;
+               border-bottom:1px solid #ddd;
+             ">
+
+          <b>${item.name}</b>
+
+          <br>
+
+          <span>
+            ₹${item.price} × ${item.quantity}
+          </span>
+
+          <br>
+
+          <button
+            onclick="decreaseQuantity(${index})"
+            style="
+              background:#ff9800;
+              color:white;
+              padding:6px 10px;
+              margin-right:5px;
+            ">
+            −
+          </button>
+
+          <strong>
+            ${item.quantity}
+          </strong>
+
+          <button
+            onclick="increaseQuantity(${index})"
+            style="
+              background:#0b7a3b;
+              color:white;
+              padding:6px 10px;
+              margin-left:5px;
+            ">
+            +
+          </button>
+
+          <button
+            onclick="removeItem(${index})"
+            style="
+              background:#e53935;
+              color:white;
+              padding:6px 10px;
+              margin-left:5px;
+            ">
+            ❌
+          </button>
+
+          <br>
+
+          <strong>
+            Sub Total: ₹${item.price * item.quantity}
+          </strong>
+
+        </div>
+
+      `;
+
+    });
+
+  }
+
+  if (cartTotal) {
+    cartTotal.innerText = getCartTotal();
+  }
+
+  cartModal.classList.add("show");
+};
+
+
+// ===============================
+// INCREASE QUANTITY
+// ===============================
+
+window.increaseQuantity = function(index) {
+
+  if (!cartItems[index]) return;
+
+  cartItems[index].quantity += 1;
+
+  updateCartUI();
+
+  viewCart();
+};
+
+
+// ===============================
+// DECREASE QUANTITY
+// ===============================
+
+window.decreaseQuantity = function(index) {
+
+  if (!cartItems[index]) return;
+
+  if (cartItems[index].quantity > 1) {
+
+    cartItems[index].quantity -= 1;
+
+  } else {
+
+    cartItems.splice(index, 1);
+
+  }
+
+  updateCartUI();
+
+  viewCart();
+};
+
+
+// ===============================
+// REMOVE ITEM
+// ===============================
+
+window.removeItem = function(index) {
+
+  if (!cartItems[index]) return;
+
+  cartItems.splice(index, 1);
+
+  updateCartUI();
+
+  viewCart();
+};
+
+
+// ===============================
+// CLEAR CART
+// ===============================
+
+window.clearCart = function() {
+
+  if (cartItems.length === 0) {
+    return;
+  }
+
+  const confirmClear =
+    confirm("🗑️ Cart முழுவதையும் Clear செய்யவா?");
+
+  if (!confirmClear) return;
+
+  cartItems = [];
+
+  localStorage.removeItem("cartItems");
+
+  updateCartUI();
+
+  closeCart();
+};
+
+
+// ===============================
+// CLOSE CART
+// ===============================
+
+window.closeCart = function() {
+
+  const cartModal =
+    document.getElementById("cartModal");
+
+  if (cartModal) {
+    cartModal.classList.remove("show");
+  }
+
+};
+
+
+// ===============================
+// LOAD PRODUCTS
+// ===============================
+
+async function loadProducts() {
+
+  const productsDiv =
+    document.getElementById("products");
+
+  if (!productsDiv) return;
+
+  productsDiv.innerHTML = `
+    <p style="text-align:center;">
+      ⏳ Products loading...
+    </p>
+  `;
+
+  try {
+
+    const querySnapshot =
+      await getDocs(collection(db, "products"));
+
+    productsDiv.innerHTML = "";
+
+    querySnapshot.forEach((document) => {
+
+      const product = document.data();
+
+      console.log("Product:", product);
+      console.log("Image:", product.image);
+
+      productsDiv.innerHTML += `
+
+        <div class="product">
+
+          <img
+            src="${product.image}"
+            alt="${product.name}"
+            onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'"
+          >
+
+          <h3>
+            ${product.name}
+          </h3>
+
+          <p>
+            ₹${product.price}
+          </p>
+
+          <p class="stock">
+            ${product.stock || "In Stock"}
+          </p>
+
+          <button
+            onclick="addToCart(
+              '${product.name.replace(/'/g, "\\'")}',
+              ${Number(product.price)}
+            )">
+
+            🛒 Add to Cart
+
+          </button>
+
+          <button
+            onclick="orderProduct(
+              '${product.name.replace(/'/g, "\\'")}',
+              ${Number(product.price)}
+            )">
+
+            📲 WhatsApp Order
+
+          </button>
+
+        </div>
+
+      `;
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    productsDiv.innerHTML = `
+      <p style="color:red;text-align:center;">
+        ❌ Products load ஆகவில்லை
+      </p>
+    `;
+
+  }
+
+}
+
+
+// ===============================
+// WHATSAPP SINGLE PRODUCT ORDER
+// ===============================
+
+window.orderProduct = function(name, price) {
+
+  const message =
+`வணக்கம் ஸ்ரீ சாரதா மார்ட் 🙏
+
+🛒 பொருள்: ${name}
+💰 விலை: ₹${price}
+
+இந்த பொருள் எனக்கு வேண்டும்.`;
+
+  window.open(
+    `https://wa.me/918760534354?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
+
+};
+
+
+// ===============================
+// CHECKOUT
+// ===============================
+
+window.checkout = async function() {
+
+  if (cartItems.length === 0) {
+
+    alert("🛒 Cart காலியாக உள்ளது!");
+
+    return;
+  }
+
+  const total = getCartTotal();
+
+  if (total < 300) {
+
+    alert(
+      `⚠️ Minimum Order ₹300\n\nஇன்னும் ₹${300 - total} வாங்க வேண்டும்.`
+    );
+
+    return;
+  }
+
+
+  // Customer Name
+
+  let customerName =
+    localStorage.getItem("customerName");
+
+  if (!customerName) {
+
+    customerName =
+      prompt("👤 உங்கள் பெயர்:");
+
     if (!customerName) return;
-    localStorage.setItem("customerName", customerName);
-}
 
-let customerPhone = localStorage.getItem("customerPhone");
+    localStorage.setItem(
+      "customerName",
+      customerName
+    );
 
-if (!customerPhone) {
-    customerPhone = prompt("📞 உங்கள் மொபைல் எண்:");
+  }
+
+
+  // Customer Phone
+
+  let customerPhone =
+    localStorage.getItem("customerPhone");
+
+  if (!customerPhone) {
+
+    customerPhone =
+      prompt("📞 உங்கள் மொபைல் எண்:");
+
     if (!customerPhone) return;
-    localStorage.setItem("customerPhone", customerPhone);
-}
 
-let customerAddress = localStorage.getItem("customerAddress");
+    localStorage.setItem(
+      "customerPhone",
+      customerPhone
+    );
 
-if (!customerAddress) {
-    customerAddress = prompt("📍 உங்கள் முகவரி:");
+  }
+
+
+  // Customer Address
+
+  let customerAddress =
+    localStorage.getItem("customerAddress");
+
+  if (!customerAddress) {
+
+    customerAddress =
+      prompt("📍 உங்கள் முகவரி:");
+
     if (!customerAddress) return;
-    localStorage.setItem("customerAddress", customerAddress);
-}
-  
-await addDoc(collection(db, "orders"), {
-    name: customerName,
-    phone: customerPhone,
-    address: customerAddress,
-    total: total,
-    status: "Pending",
-    createdAt: new Date().toISOString()
-});
+
+    localStorage.setItem(
+      "customerAddress",
+      customerAddress
+    );
+
+  }
+
+
+  // ===============================
+  // ORDER LIST
+  // ===============================
+
   let orderList = "";
 
   cartItems.forEach((item) => {
-    orderList += `• ${item.name} - ₹${item.price}\n`;
+
+    orderList +=
+      `• ${item.name} × ${item.quantity} = ₹${item.price * item.quantity}\n`;
+
   });
+
+
+  // ===============================
+  // FIREBASE ORDER
+  // ===============================
+
+  try {
+
+    await addDoc(
+      collection(db, "orders"),
+      {
+
+        name: customerName,
+
+        phone: customerPhone,
+
+        address: customerAddress,
+
+        items: cartItems,
+
+        total: total,
+
+        status: "Pending",
+
+        createdAt:
+          new Date().toISOString()
+
+      }
+    );
+
+    console.log("Order saved to Firebase");
+
+  } catch (error) {
+
+    console.error(
+      "Firebase order error:",
+      error
+    );
+
+  }
+
+
+  // ===============================
+  // WHATSAPP MESSAGE
+  // ===============================
 
   const message =
 `🛒 ஸ்ரீ சாரதா மார்ட்
 
 👤 பெயர்: ${customerName}
+
 📞 மொபைல்: ${customerPhone}
-📍 முகவரி: ${customerAddress}
+
+📍 முகவரி:
+${customerAddress}
 
 📦 ஆர்டர்:
+
 ${orderList}
 
 💰 மொத்தம்: ₹${total}
@@ -85,267 +621,334 @@ ${orderList}
   );
 
 };
-// Cart Variables
-let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-let cartCount = cartItems.length;
-let total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
-// Load Products
-async function loadProducts() {
 
-  const productsDiv = document.getElementById("products");
-  productsDiv.innerHTML = "";
+// ===============================
+// SEARCH
+// ===============================
 
-  const querySnapshot = await getDocs(collection(db, "products"));
+const searchBox =
+  document.getElementById("search");
 
-  querySnapshot.forEach((document) => {
+if (searchBox) {
 
-    const product = document.data();
-console.log(product);
-console.log(product.image);
-    productsDiv.innerHTML += `
-      <div class="product">
+  searchBox.addEventListener(
+    "keyup",
+    function() {
 
-<img
-  src="${product.image}"
-  alt="${product.name}"
-  style="width:100%;height:200px;object-fit:cover;">
-        <h3>${product.name}</h3>
+      const value =
+        this.value.toLowerCase();
 
-        <p>₹${product.price}</p>
+      document
+        .querySelectorAll(".product")
+        .forEach((product) => {
 
-        <p class="stock">${product.stock}</p>
+          const text =
+            product.innerText.toLowerCase();
 
-        <button onclick="addToCart('${product.name}', ${product.price})">
-          🛒 Add to Cart
-        </button>
+          product.style.display =
+            text.includes(value)
+              ? "block"
+              : "none";
 
-        <button onclick="orderProduct('${product.name}', ${product.price})">
-          📲 WhatsApp Order
-        </button>
+        });
 
-      </div>
-    `;
-  });
-}
-
-// Add To Cart
-window.addToCart = function(name, price) {
-
-  total += price;
-  cartItems.push({
-  name: name,
-  price: price
-});
-  cartCount = cartItems.length;
-localStorage.setItem("cartItems", JSON.stringify(cartItems));
-
-document.getElementById("cart-count").innerText = cartCount;
-document.getElementById("total").innerText = total;
-
-updateProgress();
-
-  alert(name + " Cart-ல் சேர்க்கப்பட்டது!");
-};
-
-// WhatsApp Order
-window.orderProduct = function(name, price) {
-
-  const message =
-    `வணக்கம்!\n\n` +
-    `பொருள்: ${name}\n` +
-    `விலை: ₹${price}`;
-
-  window.open(
-    `https://wa.me/918760534354?text=${encodeURIComponent(message)}`,
-    "_blank"
+    }
   );
-};
-window.closeCart = function () {
-    document.getElementById("cartModal").classList.remove("show");
+
 }
 
-window.removeItem = function(index){
 
-    total -= cartItems[index].price;
+// ===============================
+// CATEGORY FILTER
+// ===============================
 
-    cartItems.splice(index,1);
+window.filterProducts = function(category) {
 
-    cartCount = cartItems.length;
+  category =
+    category.toLowerCase();
 
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  document
+    .querySelectorAll(".product")
+    .forEach((product) => {
 
-    document.getElementById("cart-count").innerText = cartCount;
-    document.getElementById("total").innerText = total;
+      const text =
+        product.innerText.toLowerCase();
 
-    updateProgress();
+      if (category === "all") {
 
-    viewCart();
-}
+        product.style.display = "block";
 
-window.clearCart = function(){
+      } else {
 
-    cartItems = [];
-    total = 0;
-    cartCount = 0;
+        product.style.display =
+          text.includes(category)
+            ? "block"
+            : "none";
 
-    localStorage.removeItem("cartItems");
-
-    document.getElementById("cart-count").innerText = 0;
-    document.getElementById("total").innerText = 0;
-
-    updateProgress();
-
-    closeCart();
-}
-window.viewCart = function () {
-
-    const cartList = document.getElementById("cartList");
-
-    cartList.innerHTML = "";
-
-    cartItems.forEach((item, index) => {
-
-        cartList.innerHTML += `
-        <div style="margin-bottom:10px;">
-            <b>${item.name}</b><br>
-            ₹${item.price}
-            <button onclick="removeItem(${index})">❌</button>
-        </div>
-        `;
+      }
 
     });
 
-    document.getElementById("cartTotal").innerText = total;
-
-    document.getElementById("cartModal").classList.add("show");
 };
-// Search
-document.getElementById("search").addEventListener("keyup", function () {
 
-  const value = this.value.toLowerCase();
 
-  document.querySelectorAll(".product").forEach((product) => {
+// ===============================
+// OFFER
+// ===============================
 
-    const text = product.innerText.toLowerCase();
-
-    product.style.display =
-      text.includes(value) ? "block" : "none";
-  });
-});
-window.filterProducts = function(category) {
-
-  document.querySelectorAll(".product").forEach((product) => {
-
-    const text = product.innerText.toLowerCase();
-
-    if (text.includes(category)) {
-      product.style.display = "block";
-    } else {
-      product.style.display = "none";
-    }
-
-  });
-
-};
-// Start
-console.log("SCRIPT WORKING");
-loadProducts();
-document.getElementById("cart-count").innerText = cartCount;
-document.getElementById("total").innerText = total;
-
-updateProgress();
 async function loadOffer() {
 
-    const snap = await getDoc(doc(db, "settings", "offer"));
+  try {
+
+    const snap =
+      await getDoc(
+        doc(db, "settings", "offer")
+      );
+
+    const offerBanner =
+      document.getElementById("offerBanner");
+
+    if (!offerBanner) return;
 
     if (snap.exists()) {
-        document.getElementById("offerBanner").innerHTML =
-            "🎁 " + snap.data().text;
+
+      offerBanner.innerHTML =
+        "🎁 " + snap.data().text;
+
     } else {
-        document.getElementById("offerBanner").style.display = "none";
+
+      offerBanner.style.display =
+        "none";
+
     }
+
+  } catch (error) {
+
+    console.error(
+      "Offer error:",
+      error
+    );
+
+  }
 
 }
 
-loadOffer();
-let deferredPrompt;
 
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
+// ===============================
+// SHOP STATUS
+// ===============================
 
-    document.getElementById("installBtn").style.display = "block";
-});
-
-document.getElementById("installBtn").addEventListener("click", async () => {
-
-    deferredPrompt.prompt();
-
-    const { outcome } = await deferredPrompt.userChoice;
-
-    console.log(`User response: ${outcome}`);
-});
 function updateShopStatus() {
 
-    const now = new Date();
+  const now = new Date();
 
-    const hour = now.getHours();
+  const hour =
+    now.getHours();
 
-    const statusDiv = document.getElementById("shop-status");
+  const statusDiv =
+    document.getElementById("shop-status");
 
-    // காலை 7 மணி முதல் இரவு 10 மணி வரை
-    if (hour >= 7 && hour < 22) {
+  if (!statusDiv) return;
 
-        statusDiv.innerHTML =
-        "🟢 Shop Open<br><small>7:00 AM - 10:00 PM</small>";
 
-        statusDiv.style.color = "green";
+  // 7 AM - 10 PM
 
-    } else {
+  if (hour >= 7 && hour < 22) {
 
-        statusDiv.innerHTML =
-        "🔴 Shop Closed<br><small>Opens at 7:00 AM</small>";
+    statusDiv.innerHTML =
+      "🟢 Shop Open<br><small>7:00 AM - 10:00 PM</small>";
 
-        statusDiv.style.color = "red";
-    }
+    statusDiv.style.color =
+      "green";
+
+  } else {
+
+    statusDiv.innerHTML =
+      "🔴 Shop Closed<br><small>Opens at 7:00 AM</small>";
+
+    statusDiv.style.color =
+      "red";
+
+  }
+
 }
+
+
+// ===============================
+// MINIMUM ORDER PROGRESS
+// ===============================
 
 function updateProgress() {
 
-    let percent = (total / 300) * 100;
+  const total =
+    getCartTotal();
 
-    if (percent > 100) percent = 100;
-    if (percent < 0) percent = 0;
+  let percent =
+    (total / 300) * 100;
 
-    const fill = document.getElementById("progressFill");
-    const text = document.getElementById("progressText");
+  if (percent > 100)
+    percent = 100;
 
-    fill.style.width = percent + "%";
+  if (percent < 0)
+    percent = 0;
+
+
+  const fill =
+    document.getElementById("progressFill");
+
+  const text =
+    document.getElementById("progressText");
+
+
+  if (fill) {
+
+    fill.style.width =
+      percent + "%";
+
+  }
+
+
+  if (text) {
 
     if (total < 300) {
-        text.innerHTML = `₹${total} / ₹300 <br>⚠️ இன்னும் ₹${300-total} வாங்கினால் Checkout செய்யலாம்`;
+
+      text.innerHTML =
+        `₹${total} / ₹300<br>
+         ⚠️ இன்னும் ₹${300 - total}
+         வாங்கினால் Checkout செய்யலாம்`;
+
     } else {
-        text.innerHTML = `🎉 Minimum Order Completed (₹${total})`;
+
+      text.innerHTML =
+        `🎉 Minimum Order Completed (₹${total})`;
+
     }
+
+  }
+
+
+  if (fill) {
 
     if (total < 200) {
-        fill.style.background = "#ff3b30";
-    } else if (total < 300) {
-        fill.style.background = "#ff9800";
-    } else {
-        fill.style.background = "#4CAF50";
-    }
-  const checkoutBtn = document.getElementById("checkoutBtn");
 
-if (total >= 300) {
-    checkoutBtn.disabled = false;
-    checkoutBtn.style.opacity = "1";
-} else {
-    checkoutBtn.disabled = true;
-    checkoutBtn.style.opacity = "0.5";
+      fill.style.background =
+        "#ff3b30";
+
+    } else if (total < 300) {
+
+      fill.style.background =
+        "#ff9800";
+
+    } else {
+
+      fill.style.background =
+        "#4CAF50";
+
+    }
+
+  }
+
+
+  const checkoutBtn =
+    document.getElementById("checkoutBtn");
+
+  if (checkoutBtn) {
+
+    if (total >= 300) {
+
+      checkoutBtn.disabled =
+        false;
+
+      checkoutBtn.style.opacity =
+        "1";
+
+    } else {
+
+      checkoutBtn.disabled =
+        true;
+
+      checkoutBtn.style.opacity =
+        "0.5";
+
+    }
+
+  }
+
 }
+
+
+// ===============================
+// PWA INSTALL
+// ===============================
+
+let deferredPrompt = null;
+
+window.addEventListener(
+  "beforeinstallprompt",
+  (e) => {
+
+    e.preventDefault();
+
+    deferredPrompt = e;
+
+    const installBtn =
+      document.getElementById("installBtn");
+
+    if (installBtn) {
+
+      installBtn.style.display =
+        "block";
+
+    }
+
+  }
+);
+
+
+const installBtn =
+  document.getElementById("installBtn");
+
+if (installBtn) {
+
+  installBtn.addEventListener(
+    "click",
+    async () => {
+
+      if (!deferredPrompt) return;
+
+      deferredPrompt.prompt();
+
+      const { outcome } =
+        await deferredPrompt.userChoice;
+
+      console.log(
+        "Install response:",
+        outcome
+      );
+
+      deferredPrompt = null;
+
+    }
+  );
+
 }
+
+
+// ===============================
+// START
+// ===============================
+
+console.log(
+  "✅ SRI SARADHA MART SCRIPT WORKING"
+);
+
+loadProducts();
+
+loadOffer();
+
+updateCartUI();
 
 updateShopStatus();
-updateProgress();
+
+updateProgress();    
