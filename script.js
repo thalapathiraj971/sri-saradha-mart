@@ -116,7 +116,6 @@ function updateCartUI() {
 
 }
 
-
 // ===============================
 // ADD TO CART
 // ===============================
@@ -124,10 +123,7 @@ function updateCartUI() {
 window.addToCart = function(name, price) {
 
   const existingItem =
-    cartItems.find(
-      item => item.name === name
-    );
-
+    cartItems.find(item => item.name === name);
 
   if (existingItem) {
 
@@ -143,14 +139,16 @@ window.addToCart = function(name, price) {
 
   }
 
+  localStorage.setItem(
+    "cartItems",
+    JSON.stringify(cartItems)
+  );
 
   updateCartUI();
 
-  alert(
-    `🛒 ${name}\nCart-ல் சேர்க்கப்பட்டது!`
-  );
-
+  alert(`🛒 ${name} Cart-ல் சேர்க்கப்பட்டது`);
 };
+
 
 
 // ===============================
