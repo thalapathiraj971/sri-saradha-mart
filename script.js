@@ -98,24 +98,7 @@ function updateCartUI() {
 // ADD TO CART
 // ===============================
 
-function saveCart() {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-}
 
-function calculateTotal() {
-    return cartItems.reduce(
-        (sum, item) => sum + (item.price * item.qty),
-        0
-    );
-}
-
-function updateCartUI() {
-
-    total = calculateTotal();
-    cartCount = cartItems.reduce(
-        (sum, item) => sum + item.qty,
-        0
-    );
 
     document.getElementById("cart-count").innerText = cartCount;
     document.getElementById("total").innerText = total;
@@ -188,42 +171,31 @@ window.viewCart = function () {
 
 
 // ===============================
-// INCREASE QUANTITY
+// CHANGE QUANTITY
 // ===============================
 
-window.increaseQuantity = function(index) {
+window.changeQty = function(index, change) {
 
-  if (!cartItems[index]) return;
+    if (!cartItems[index]) return;
 
-  cartItems[index].quantity += 1;
+    cartItems[index].quantity =
+        Number(cartItems[index].quantity) + change;
 
-  updateCartUI();
+    // Quantity 0 ஆனா item remove
+    if (cartItems[index].quantity <= 0) {
+        cartItems.splice(index, 1);
+    }
 
-  viewCart();
-};
+    // Save + update
+    localStorage.setItem(
+        "cartItems",
+        JSON.stringify(cartItems)
+    );
 
+    updateCartUI();
 
-// ===============================
-// DECREASE QUANTITY
-// ===============================
-
-window.decreaseQuantity = function(index) {
-
-  if (!cartItems[index]) return;
-
-  if (cartItems[index].quantity > 1) {
-
-    cartItems[index].quantity -= 1;
-
-  } else {
-
-    cartItems.splice(index, 1);
-
-  }
-
-  updateCartUI();
-
-  viewCart();
+    // Cart-ஐ refresh பண்ணும்
+    viewCart();
 };
 
 
