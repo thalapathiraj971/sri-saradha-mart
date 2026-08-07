@@ -98,30 +98,42 @@ function updateCartUI() {
 // ADD TO CART
 // ===============================
 
-window.addToCart = function(name, price) {
+function saveCart() {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+}
 
-  price = Number(price);
+function calculateTotal() {
+    return cartItems.reduce(
+        (sum, item) => sum + (item.price * item.qty),
+        0
+    );
+}
 
-  const existingItem =
-    cartItems.find(item => item.name === name);
+function updateCartUI() {
 
-  if (existingItem) {
+    total = calculateTotal();
+    cartCount = cartItems.reduce(
+        (sum, item) => sum + item.qty,
+        0
+    );
 
-    existingItem.quantity += 1;
+    document.getElementById("cart-count").innerText = cartCount;
+    document.getElementById("total").innerText = total;
 
-  } else {
+    updateProgress();
+}
 
-    cartItems.push({
-      name: name,
-      price: price,
-      quantity: 1
-    });
+window.changeQty = function(index, change) {
 
-  }
+    cartItems[index].qty += change;
 
-  updateCartUI();
+    if (cartItems[index].qty <= 0) {
+        cartItems.splice(index, 1);
+    }
 
-  alert("🛒 " + name + " Cart-ல் சேர்க்கப்பட்டது!");
+    saveCart();
+    updateCartUI();
+    viewCart();
 };
 
 
@@ -129,115 +141,49 @@ window.addToCart = function(name, price) {
 // VIEW CART
 // ===============================
 
-window.viewCart = function() {
+window.viewCart = function () {
 
-  const cartModal =
-    document.getElementById("cartModal");
+    const cartList = document.getElementById("cartList");
 
-  const cartList =
-    document.getElementById("cartList");
-
-  const cartTotal =
-    document.getElementById("cartTotal");
-
-  if (!cartModal || !cartList) {
-    console.log("Cart elements not found");
-    return;
-  }
-
-  cartList.innerHTML = "";
-
-  if (cartItems.length === 0) {
-
-    cartList.innerHTML = `
-      <p style="
-        text-align:center;
-        padding:20px;
-        color:#777;
-        font-weight:bold;
-      ">
-        🛒 Cart காலியாக உள்ளது
-      </p>
-    `;
-
-  } else {
+    cartList.innerHTML = "";
 
     cartItems.forEach((item, index) => {
 
-      cartList.innerHTML += `
+        const itemTotal = item.price * item.qty;
 
-        <div class="cart-item"
-             style="
-               padding:12px 0;
-               border-bottom:1px solid #ddd;
-             ">
+        cartList.innerHTML += `
+            <div class="cart-item">
 
-          <b>${item.name}</b>
+                <div>
+                    <b>${item.name}</b>
+                    <br>
+                    ₹${item.price} × ${item.qty}
+                    <br>
+                    <strong>₹${itemTotal}</strong>
+                </div>
 
-          <br>
+                <div class="qty-control">
 
-          <span>
-            ₹${item.price} × ${item.quantity}
-          </span>
+                    <button onclick="changeQty(${index}, -1)">
+                        −
+                    </button>
 
-          <br>
+                    <span>${item.qty}</span>
 
-          <button
-            onclick="decreaseQuantity(${index})"
-            style="
-              background:#ff9800;
-              color:white;
-              padding:6px 10px;
-              margin-right:5px;
-            ">
-            −
-          </button>
+                    <button onclick="changeQty(${index}, 1)">
+                        +
+                    </button>
 
-          <strong>
-            ${item.quantity}
-          </strong>
+                </div>
 
-          <button
-            onclick="increaseQuantity(${index})"
-            style="
-              background:#0b7a3b;
-              color:white;
-              padding:6px 10px;
-              margin-left:5px;
-            ">
-            +
-          </button>
-
-          <button
-            onclick="removeItem(${index})"
-            style="
-              background:#e53935;
-              color:white;
-              padding:6px 10px;
-              margin-left:5px;
-            ">
-            ❌
-          </button>
-
-          <br>
-
-          <strong>
-            Sub Total: ₹${item.price * item.quantity}
-          </strong>
-
-        </div>
-
-      `;
+            </div>
+        `;
 
     });
 
-  }
+    document.getElementById("cartTotal").innerText = calculateTotal();
 
-  if (cartTotal) {
-    cartTotal.innerText = getCartTotal();
-  }
-
-  cartModal.classList.add("show");
+    document.getElementById("cartModal").classList.add("show");
 };
 
 
