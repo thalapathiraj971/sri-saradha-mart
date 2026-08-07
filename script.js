@@ -98,26 +98,42 @@ function updateCartUI() {
 // ADD TO CART
 // ===============================
 
+window.addToCart = function(name, price) {
 
+    const existingItem = cartItems.find(
+        item => item.name === name
+    );
 
-    document.getElementById("cart-count").innerText = cartCount;
-    document.getElementById("total").innerText = total;
+    if (existingItem) {
 
-    updateProgress();
-}
+        existingItem.quantity += 1;
 
-window.changeQty = function(index, change) {
+    } else {
 
-    cartItems[index].qty += change;
+        cartItems.push({
+            name: name,
+            price: Number(price),
+            quantity: 1
+        });
 
-    if (cartItems[index].qty <= 0) {
-        cartItems.splice(index, 1);
     }
 
-    saveCart();
+    localStorage.setItem(
+        "cartItems",
+        JSON.stringify(cartItems)
+    );
+
     updateCartUI();
-    viewCart();
+
+    alert(`🛒 ${name} Cart-ல் சேர்க்கப்பட்டது!`);
 };
+
+
+
+    
+
+
+
 
 
 // ===============================
