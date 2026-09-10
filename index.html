@@ -126,7 +126,11 @@ placeholder="🔍 பொருட்களை தேடுங்கள்...">
 📲 Install App
 </button>
 <script type="module" src="script.js"></script>
-
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service-worker.js");
+}
+</script>
 <!--
 <script>
 if ("serviceWorker" in navigator) {
