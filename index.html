@@ -106,23 +106,28 @@ font-weight:bold;">
 </div>
 <section class="categories">
 
-<div class="categories">
+    <button onclick="loadProducts()">🛒 All</button>
 
-<button onclick="loadProducts()">🛒 All</button>
-<button onclick="filterProducts('rice')">🍚 Rice</button>
-<button onclick="filterProducts('oil')">🛢️ Oil</button>
-<button onclick="filterProducts('dal')">🌾 Dal</button>
-<button onclick="filterProducts('biscuit')">🍪 Biscuits</button>
+    <button onclick="filterProducts('rice')">
+        🍚 Rice
+    </button>
 
-</div>
+    <button onclick="filterProducts('oil')">
+        🛢️ Oil
+    </button>
+
+    <button onclick="filterProducts('dal')">
+        🌾 Dal
+    </button>
+
+    <button onclick="filterProducts('biscuit')">
+        🍪 Biscuits
+    </button>
+
 </section>
 
 <h2 class="title">Today's Products</h2>
 
-<input
-type="text"
-id="search"
-placeholder="🔍 பொருட்களை தேடுங்கள்...">
 <div id="products" class="products">
   
 </div>
