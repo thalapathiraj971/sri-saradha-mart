@@ -287,3 +287,18 @@ main{
 #cartModal .cart-content button:hover{
     background:#00BCD4;
 }
+.cart-bar button{
+    background:#0097A7;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-left:5px;
+}
+
+.cart-bar button:hover{
+    background:#00BCD4;
+}
