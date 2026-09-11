@@ -302,3 +302,13 @@ main{
 .cart-bar button:hover{
     background:#00BCD4;
 }
+.cart-bar button:not(.checkout-btn){
+    background:#0097A7;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
