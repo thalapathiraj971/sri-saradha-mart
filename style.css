@@ -525,3 +525,38 @@ header p{
         height:200px;
     }
 }
+/* ===== OFFER / MRP PRICE ===== */
+
+.product{
+    position:relative;
+}
+
+.offer-badge{
+    position:absolute;
+    top:8px;
+    left:8px;
+    background:#00a650;
+    color:white;
+    padding:5px 9px;
+    border-radius:5px;
+    font-size:12px;
+    font-weight:bold;
+    z-index:2;
+}
+
+.price-box{
+    margin:6px 2px;
+}
+
+.mrp{
+    color:#777;
+    text-decoration:line-through;
+    font-size:14px;
+    margin-right:7px;
+}
+
+.offer-price{
+    color:#0097A7;
+    font-size:19px;
+    font-weight:bold;
+}
