@@ -401,9 +401,7 @@ async function loadProducts() {
   const productsDiv =
     document.getElementById("products");
 
-
   if (!productsDiv) return;
-
 
   productsDiv.innerHTML = `
     <p style="
@@ -414,7 +412,6 @@ async function loadProducts() {
     </p>
   `;
 
-
   try {
 
     const querySnapshot =
@@ -422,9 +419,7 @@ async function loadProducts() {
         collection(db, "products")
       );
 
-
     productsDiv.innerHTML = "";
-
 
     if (querySnapshot.empty) {
 
@@ -438,45 +433,100 @@ async function loadProducts() {
       `;
 
       return;
-
     }
-
 
     querySnapshot.forEach((document) => {
 
       const product =
         document.data();
 
-
-      console.log(
-        "Product:",
-        product
-      );
-
+      console.log("Product:", product);
 
       const name =
         product.name || "Product";
 
-
       const price =
         Number(product.price) || 0;
 
+      const mrp =
+        Number(product.mrp) || 0;
 
       const image =
         product.image || "";
 
-
       const stock =
         product.stock || "In Stock";
+
+
+      // =========================
+      // DISCOUNT CALCULATION
+      // =========================
+
+      let discount = 0;
+
+      if (mrp > price && mrp > 0) {
+
+        discount =
+          Math.round(
+            ((mrp - price) / mrp) * 100
+          );
+
+      }
 
 
       const safeName =
         name.replace(/'/g, "\\'");
 
 
+      // =========================
+      // OFFER BADGE
+      // =========================
+
+      const offerBadge =
+        discount > 0
+          ? `
+            <span class="offer-badge">
+              ${discount}% OFF
+            </span>
+          `
+          : "";
+
+
+      // =========================
+      // PRICE DISPLAY
+      // =========================
+
+      const priceDisplay =
+        discount > 0
+          ? `
+            <div class="price-box">
+
+              <span class="mrp">
+                ₹${mrp}
+              </span>
+
+              <span class="offer-price">
+                ₹${price}
+              </span>
+
+            </div>
+          `
+          : `
+            <div class="price-box">
+
+              <span class="offer-price">
+                ₹${price}
+              </span>
+
+            </div>
+          `;
+
+
       productsDiv.innerHTML += `
 
         <div class="product">
+
+          ${offerBadge}
 
           <img
             src="${image}"
@@ -490,9 +540,7 @@ async function loadProducts() {
             ${name}
           </h3>
 
-          <p>
-            ₹${price}
-          </p>
+          ${priceDisplay}
 
           <p class="stock">
             ${stock}
@@ -535,7 +583,6 @@ async function loadProducts() {
       "Products Error:",
       error
     );
-
 
     productsDiv.innerHTML = `
       <p style="
