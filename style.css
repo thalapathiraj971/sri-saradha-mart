@@ -312,3 +312,149 @@ main{
     font-weight:bold;
     cursor:pointer;
 }
+/* ===== SRI SARADHA MART - SHOPPING UI ===== */
+
+body{
+    background:#f1f3f6;
+}
+
+/* Header */
+header{
+    background:#0097A7;
+    padding:12px 15px 16px;
+}
+
+header h1{
+    font-size:24px;
+}
+
+header p{
+    font-size:14px;
+}
+
+/* Search */
+#search{
+    background:white;
+    border:1px solid #ddd;
+    border-radius:6px;
+    padding:13px 15px;
+    margin:12px 0;
+    font-size:15px;
+    box-shadow:0 2px 5px rgba(0,0,0,.08);
+}
+
+/* Categories */
+.categories{
+    background:white;
+    padding:12px 10px;
+    margin:0 -5px 15px;
+    gap:8px;
+}
+
+.categories button{
+    background:#0097A7;
+    white-space:nowrap;
+    border-radius:20px;
+    padding:8px 15px;
+}
+
+/* Banner */
+.banner{
+    border-radius:8px;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+.banner h2{
+    color:#0097A7;
+}
+
+/* Product section */
+.title{
+    color:#222;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* Product cards */
+.products{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.product{
+    padding:10px;
+    border-radius:8px;
+    box-shadow:0 1px 5px rgba(0,0,0,.12);
+    position:relative;
+}
+
+.product img{
+    height:170px;
+    object-fit:contain;
+    background:#fff;
+}
+
+.product h3{
+    font-size:15px;
+    min-height:38px;
+}
+
+.product p{
+    color:#0097A7;
+    font-size:17px;
+}
+
+/* Add to cart */
+.product button{
+    background:#0097A7;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+/* View Cart */
+.cart-bar{
+    position:sticky;
+    bottom:10px;
+    z-index:1000;
+    margin:10px;
+    background:white;
+    border:1px solid #ddd;
+    box-shadow:0 3px 12px rgba(0,0,0,.18);
+}
+
+.cart-bar button:not(.checkout-btn){
+    background:#0097A7;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* Checkout */
+.checkout-btn{
+    background:#0097A7 !important;
+}
+
+/* Stock */
+.stock{
+    color:#008000;
+    font-size:13px;
+}
+
+/* Mobile */
+@media(max-width:600px){
+    main{
+        padding:10px;
+    }
+
+    header h1{
+        font-size:22px;
+    }
+
+    .product img{
+        height:150px;
+    }
+}
