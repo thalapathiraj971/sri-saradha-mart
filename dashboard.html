@@ -72,11 +72,25 @@ button{
 
 <input type="text" id="name" placeholder="Product Name">
 
-<input type="number" id="price" placeholder="Price">
+<input
+    type="number"
+    id="mrp"
+    placeholder="MRP">
 
-<input type="text" id="image" placeholder="Image URL">
+<input
+    type="number"
+    id="price"
+    placeholder="Offer Price">
 
-<input type="text" id="stock" placeholder="In Stock / Out of Stock">
+<input
+    type="text"
+    id="image"
+    placeholder="Image URL">
+
+<input
+    type="text"
+    id="stock"
+    placeholder="In Stock / Out of Stock">
 
 <button onclick="addProduct()">
 ➕ Add Product
@@ -113,12 +127,13 @@ margin-bottom:15px;">
 <h2 id="pendingOrders">0</h2>
 </div>
 <div class="card" style="background:#F44336;">
-<h3>Low Stock</h3>
-<h2 id="lowStock">0</h2>
+    <h3>Low Stock</h3>
+    <h2 id="lowStock">0</h2>
+</div>
+
 <div class="card" style="background:#9C27B0;">
-<h3>Today's Sales</h3>
-<h2 id="todaySales">₹0</h2>
-    </div>
+    <h3>Today's Sales</h3>
+    <h2 id="todaySales">₹0</h2>
 </div>
 </div>
 <div class="card">
