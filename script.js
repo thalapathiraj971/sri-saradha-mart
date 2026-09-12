@@ -1184,7 +1184,7 @@ function updateProgress() {
     if (total < 500) {
 
       text.innerHTML =
-        `₹${total} / ₹300<br>
+        `₹${total} / ₹500<br>
          ⚠️ இன்னும் ₹${500 - total}
          வாங்கினால் Checkout செய்யலாம்`;
 
