@@ -737,8 +737,92 @@ async function() {
     );
 
   }
+// ================= DELIVERY DISTANCE =================
 
+const SHOP_LAT = 11.3641875;
+const SHOP_LNG = 77.7553125;
 
+function getDistanceKm(lat1, lon1, lat2, lon2) {
+
+    const R = 6371;
+
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c;
+}
+
+function getCustomerLocation() {
+
+    return new Promise((resolve, reject) => {
+
+        if (!navigator.geolocation) {
+            reject("Location support இல்லை");
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+
+                const distance = getDistanceKm(
+                    lat,
+                    lng,
+                    SHOP_LAT,
+                    SHOP_LNG
+                );
+
+                resolve(distance);
+
+            },
+            () => {
+                reject("Location permission கொடுக்கப்படவில்லை");
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+
+    });
+}
+// ================= DELIVERY STATUS =================
+
+let deliveryStatus = "";
+
+try {
+
+    const distance = await getCustomerLocation();
+
+    if (distance <= 5) {
+
+        deliveryStatus = "🟢 Today Delivery";
+
+    } else {
+
+        deliveryStatus = "🔵 Next Day Delivery";
+
+    }
+
+    console.log("Delivery Distance:", distance.toFixed(2) + " KM");
+
+} catch (error) {
+
+    alert("📍 Delivery location permission கொடுக்கவும்");
+    return;
+
+}
   // ORDER LIST
 
   let orderList = "";
@@ -822,6 +906,8 @@ ${customerAddress}
 ${orderList}
 
 💰 மொத்தம்: ₹${total}
+
+🚚 Delivery: ${deliveryStatus}
 
 நன்றி 🙏`;
 
