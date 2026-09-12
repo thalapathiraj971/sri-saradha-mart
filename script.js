@@ -645,7 +645,7 @@ async function() {
     getCartTotal();
 
 
-  if (total < 300) {
+  if (total < 500) {
 
     alert(
       `⚠️ Minimum Order ₹500
