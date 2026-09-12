@@ -1159,7 +1159,7 @@ function updateProgress() {
       percent + "%";
 
 
-    if (total < 200) {
+    if (total < 500) {
 
       fill.style.background =
         "#ff3b30";
