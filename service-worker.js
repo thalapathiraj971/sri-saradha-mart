@@ -1,4 +1,4 @@
-const CACHE_NAME = "sri-saradha-mart-v101";
+const CACHE_NAME = "sri-saradha-mart-v102";
 
 const urlsToCache = [
     "./",
