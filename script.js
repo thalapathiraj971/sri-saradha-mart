@@ -648,9 +648,9 @@ async function() {
   if (total < 300) {
 
     alert(
-      `⚠️ Minimum Order ₹300
+      `⚠️ Minimum Order ₹500
 
-இன்னும் ₹${300 - total} வாங்க வேண்டும்.`
+இன்னும் ₹${500 - total} வாங்க வேண்டும்.`
     );
 
     return;
@@ -1130,7 +1130,7 @@ function updateProgress() {
 
 
   let percent =
-    (total / 300) * 100;
+    (total / 500) * 100;
 
 
   if (percent > 100)
@@ -1164,7 +1164,7 @@ function updateProgress() {
       fill.style.background =
         "#ff3b30";
 
-    } else if (total < 300) {
+    } else if (total < 500) {
 
       fill.style.background =
         "#ff9800";
@@ -1181,11 +1181,11 @@ function updateProgress() {
 
   if (text) {
 
-    if (total < 300) {
+    if (total < 500) {
 
       text.innerHTML =
         `₹${total} / ₹300<br>
-         ⚠️ இன்னும் ₹${300 - total}
+         ⚠️ இன்னும் ₹${500 - total}
          வாங்கினால் Checkout செய்யலாம்`;
 
     } else {
@@ -1206,7 +1206,7 @@ function updateProgress() {
 
   if (checkoutBtn) {
 
-    if (total >= 300) {
+    if (total >= 500) {
 
       checkoutBtn.disabled =
         false;
