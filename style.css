@@ -560,3 +560,40 @@ header p{
     font-size:19px;
     font-weight:bold;
 }
+/* ===== MINIMUM ORDER BOX STYLE ===== */
+
+.progress-box{
+    margin:14px 16px;
+    padding:14px 16px;
+    border-radius:16px;
+    background:linear-gradient(135deg,#202020,#2d2d2d);
+    box-shadow:0 4px 12px rgba(0,0,0,.18);
+    text-align:center;
+}
+
+.progress-box h3{
+    margin:2px 0 10px;
+    font-size:19px;
+    color:white;
+}
+
+.progress{
+    height:10px;
+    margin:8px 0;
+    border-radius:20px;
+    background:#444;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    border-radius:20px;
+    background:linear-gradient(90deg,#00BCD4,#0097A7);
+}
+
+#progressText{
+    margin:9px 0 2px;
+    font-size:14px;
+    color:#ddd;
+    font-weight:bold;
+}
