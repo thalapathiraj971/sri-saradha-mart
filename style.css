@@ -699,3 +699,56 @@ header p{
         object-fit:cover;
     }
 }
+/* 📱 3 PRODUCTS PER ROW - MOBILE */
+
+@media(max-width:600px){
+
+    .products{
+        grid-template-columns:repeat(3,1fr);
+        gap:7px;
+    }
+
+    .product{
+        padding:6px;
+        border-radius:7px;
+    }
+
+    .product img{
+        height:105px;
+        border-radius:5px;
+    }
+
+    .product h3{
+        font-size:12px;
+        line-height:1.2;
+        min-height:32px;
+        margin:6px 1px 4px;
+    }
+
+    .product p{
+        font-size:13px;
+        margin:3px 1px;
+    }
+
+    .product button{
+        font-size:11px;
+        padding:7px 3px;
+        margin-top:5px;
+    }
+
+    .offer-badge{
+        top:5px;
+        left:5px;
+        padding:3px 5px;
+        font-size:9px;
+    }
+
+    .mrp{
+        font-size:10px;
+    }
+
+    .offer-price{
+        font-size:14px;
+    }
+
+}
