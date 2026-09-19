@@ -752,3 +752,34 @@ header p{
     }
 
 }
+/* FORCE 3 PRODUCTS IN MOBILE */
+
+@media screen and (max-width: 600px) {
+    main .products {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 7px !important;
+        width: 100% !important;
+    }
+
+    main .products .product {
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 5px !important;
+    }
+
+    main .products .product img {
+        width: 100% !important;
+        height: 100px !important;
+        object-fit: contain !important;
+    }
+
+    main .products .product h3 {
+        font-size: 11px !important;
+    }
+
+    main .products .product button {
+        font-size: 10px !important;
+        padding: 7px 2px !important;
+    }
+}
