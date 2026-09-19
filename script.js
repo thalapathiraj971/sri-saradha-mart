@@ -1320,5 +1320,31 @@ updateCartUI();
 updateShopStatus();
 
 updateProgress();                      
+let deliverySlideIndex = 0;
 
+function playDeliverySlider() {
+
+    const slides = document.querySelector(".delivery-slides");
+    const dots = document.querySelectorAll(".slider-dots .dot");
+
+    if (!slides || dots.length === 0) return;
+
+    deliverySlideIndex++;
+
+    if (deliverySlideIndex >= 2) {
+        deliverySlideIndex = 0;
+    }
+
+    slides.style.transform =
+        `translateX(-${deliverySlideIndex * 50}%)`;
+
+    dots.forEach((dot, index) => {
+        dot.classList.toggle(
+            "active",
+            index === deliverySlideIndex
+        );
+    });
+}
+
+setInterval(playDeliverySlider, 4000);
     
