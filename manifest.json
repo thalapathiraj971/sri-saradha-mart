@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "ஸ்ரீ சாரதா மார்ட்",
-  "short_name": "சாரதா மார்ட்",
+  "name": "நம்ம மார்ட்",
+"short_name": "நம்ம மார்ட்",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
