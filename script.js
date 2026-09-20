@@ -108,7 +108,12 @@ function updateCartUI() {
       total;
 
   }
+const headerCartCount =
+    document.getElementById("header-cart-count");
 
+if (headerCartCount) {
+    headerCartCount.textContent = cartCount;
+}
 
   saveCart();
 
