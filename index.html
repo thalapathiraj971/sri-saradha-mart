@@ -22,25 +22,54 @@
 
 <header class="top-header">
 
-    <div class="top-row">
+    <!-- 🖼️ Header Banner -->
+    <div class="header-banner">
 
-        <img src="./icon-512.png"
-             class="logo"
-             alt="நம்ம மார்ட்"
+        <img src="./namma-mart-header.png"
+             alt="நம்ம மார்ட்">
 
-        <div class="brand">
-            <h1>நம்ம மார்ட்</h1>
-            <p>🛍️ Grocery • Home Delivery</p>
-        </div>
+        <!-- 🛒 Header Cart -->
+        <button class="header-cart" onclick="viewCart()">
+            🛒
+            <span id="header-cart-count">0</span>
+        </button>
 
     </div>
 
+
+    <!-- 🔍 Search -->
     <div class="search-box">
         <input
             type="text"
             id="search"
             placeholder="🔍 Search for products...">
     </div>
+
+</header>
+
+
+<!-- 🚚 Service Highlights -->
+<div class="service-strip">
+
+    <div class="service-item">
+        <div class="service-icon">🚚</div>
+        <h4>Fast Delivery</h4>
+        <p>(குறைந்த நேரத்தில்)</p>
+    </div>
+
+    <div class="service-item">
+        <div class="service-icon">💰</div>
+        <h4>Best Price</h4>
+        <p>(சிறந்த விலை)</p>
+    </div>
+
+    <div class="service-item">
+        <div class="service-icon">🛡️</div>
+        <h4>Fresh & Quality</h4>
+        <p>(தரம் உறுதி)</p>
+    </div>
+
+</div>
 
 </header>
 
