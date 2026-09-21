@@ -740,3 +740,57 @@ main{
 .cart-content button {
     cursor: pointer;
 }
+/* =========================
+   UPI PAYMENT QR
+========================= */
+
+.upi-payment {
+    margin-top: 20px;
+    padding: 18px;
+    background: #f7ffff;
+    border: 2px solid #0097A7;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.upi-payment h3 {
+    margin: 0 0 10px;
+    color: #0097A7;
+    font-size: 20px;
+}
+
+.upi-payment p {
+    margin: 8px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+.upi-qr {
+    display: block;
+    width: 220px;
+    height: 220px;
+    max-width: 100%;
+    object-fit: contain;
+    margin: 15px auto;
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+}
+
+.upi-payment button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 12px;
+    background: #0097A7;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.upi-payment button:active {
+    transform: scale(0.98);
+}
