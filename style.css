@@ -323,9 +323,11 @@ main{
 
 .products{
     width:100%;
+    max-width:100%;
     display:grid;
     grid-template-columns:repeat(3,minmax(0,1fr));
     gap:8px;
+    overflow:hidden;
 }
 
 .product{
@@ -472,8 +474,10 @@ main{
     }
 
     .products{
-        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
-        gap:7px !important;
+    width:100%;
+    max-width:100%;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:7px !important;
     }
 
     .product{
