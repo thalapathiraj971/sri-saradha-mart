@@ -792,3 +792,74 @@ main{
     font-size: 15px;
     font-weight: bold;
 }
+/* =========================
+   PAYMENT OPTIONS
+========================= */
+
+.payment-options {
+    margin: 18px 15px;
+    padding: 18px 12px;
+    background: #f3fcfd;
+    border: 2px solid #0097A7;
+    border-radius: 18px;
+}
+
+.payment-options > h2 {
+    text-align: center;
+    color: #007c89;
+    font-size: 21px;
+    margin: 0 0 15px;
+}
+
+.payment-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.payment-card {
+    background: white;
+    padding: 15px 10px;
+    text-align: center;
+    border-radius: 15px;
+    border: 1px solid #d7eeee;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.payment-icon {
+    font-size: 32px;
+    margin-bottom: 6px;
+}
+
+.payment-card h3 {
+    color: #007c89;
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.payment-card p {
+    color: #555;
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 5px 0 0;
+}
+
+/* Mobile */
+@media (max-width: 450px) {
+
+    .payment-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .payment-card {
+        padding: 13px 8px;
+    }
+
+    .payment-card h3 {
+        font-size: 14px;
+    }
+
+    .payment-card p {
+        font-size: 11px;
+    }
+}
