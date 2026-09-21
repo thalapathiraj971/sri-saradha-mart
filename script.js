@@ -1,0 +1,1607 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+// =====================================================
+// FIREBASE CONFIG
+// =====================================================
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBQehMWwcThf8NLMGeJIG-omcywEEiJpHs",
+  authDomain: "raj-mini-mart.firebaseapp.com",
+  projectId: "raj-mini-mart",
+  storageBucket: "raj-mini-mart.firebasestorage.app",
+  messagingSenderId: "490305070206",
+  appId: "1:490305070206:web:ff8214149720a7b8a1e42f"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+// =====================================================
+// CART
+// =====================================================
+
+let cartItems = [];
+
+try {
+  cartItems = JSON.parse(
+    localStorage.getItem("cartItems")
+  ) || [];
+} catch (error) {
+  console.error("Cart storage error:", error);
+  cartItems = [];
+}
+
+
+// Make sure quantity is valid
+cartItems = cartItems.map(item => ({
+  name: String(item.name || "Product"),
+  price: Number(item.price) || 0,
+  quantity:
+    Number(item.quantity) ||
+    Number(item.qty) ||
+    1
+}));
+
+
+// =====================================================
+// CART TOTAL
+// =====================================================
+
+function getCartTotal() {
+
+  return cartItems.reduce(
+    (sum, item) => {
+      return sum +
+        (Number(item.price) *
+         Number(item.quantity));
+    },
+    0
+  );
+
+}
+
+
+// =====================================================
+// SAVE CART
+// =====================================================
+
+function saveCart() {
+
+  localStorage.setItem(
+    "cartItems",
+    JSON.stringify(cartItems)
+  );
+
+}
+
+
+// =====================================================
+// UPDATE CART UI
+// =====================================================
+
+function updateCartUI() {
+
+  const cartCountElement =
+    document.getElementById("cart-count");
+
+  const totalElement =
+    document.getElementById("total");
+
+  const headerCartCount =
+    document.getElementById("header-cart-count");
+
+
+  const cartCount =
+    cartItems.reduce(
+      (sum, item) => {
+        return sum + Number(item.quantity);
+      },
+      0
+    );
+
+
+  const total =
+    getCartTotal();
+
+
+  if (cartCountElement) {
+    cartCountElement.textContent =
+      cartCount;
+  }
+
+
+  if (totalElement) {
+    totalElement.textContent =
+      total;
+  }
+
+
+  if (headerCartCount) {
+    headerCartCount.textContent =
+      cartCount;
+  }
+
+
+  saveCart();
+
+  updateProgress();
+
+}
+
+
+// =====================================================
+// ADD TO CART
+// =====================================================
+
+window.addToCart = function(name, price) {
+
+  const existingItem =
+    cartItems.find(
+      item => item.name === name
+    );
+
+
+  if (existingItem) {
+
+    existingItem.quantity += 1;
+
+  } else {
+
+    cartItems.push({
+      name: String(name),
+      price: Number(price) || 0,
+      quantity: 1
+    });
+
+  }
+
+
+  saveCart();
+
+  updateCartUI();
+
+  alert(
+    `🛒 ${name} Cart-ல் சேர்க்கப்பட்டது`
+  );
+
+};
+
+
+// =====================================================
+// VIEW CART
+// =====================================================
+
+window.viewCart = function() {
+
+  const cartModal =
+    document.getElementById("cartModal");
+
+  const cartList =
+    document.getElementById("cartList");
+
+  const cartTotal =
+    document.getElementById("cartTotal");
+
+
+  if (!cartModal || !cartList) {
+
+    console.error(
+      "Cart elements not found in HTML"
+    );
+
+    return;
+  }
+
+
+  cartList.innerHTML = "";
+
+
+  if (cartItems.length === 0) {
+
+    cartList.innerHTML = `
+      <p style="
+        text-align:center;
+        padding:20px;
+        color:#777;
+        font-weight:bold;
+      ">
+        🛒 Cart காலியாக உள்ளது
+      </p>
+    `;
+
+  } else {
+
+    cartItems.forEach(
+      (item, index) => {
+
+        const itemTotal =
+          Number(item.price) *
+          Number(item.quantity);
+
+
+        cartList.innerHTML += `
+          <div class="cart-item"
+            style="
+              padding:12px 0;
+              border-bottom:1px solid #ddd;
+            ">
+
+            <b>${escapeHTML(item.name)}</b>
+
+            <br><br>
+
+            ₹${item.price} × ${item.quantity}
+
+            <br><br>
+
+            <button
+              onclick="changeQty(${index}, -1)"
+              style="
+                background:#ff9800;
+                color:white;
+                border:none;
+                padding:6px 12px;
+                border-radius:6px;
+                font-size:18px;
+              "
+            >
+              −
+            </button>
+
+            <strong style="
+              margin:0 10px;
+              font-size:17px;
+            ">
+              ${item.quantity}
+            </strong>
+
+            <button
+              onclick="changeQty(${index}, 1)"
+              style="
+                background:#0097A7;
+                color:white;
+                border:none;
+                padding:6px 12px;
+                border-radius:6px;
+                font-size:18px;
+              "
+            >
+              +
+            </button>
+
+            <button
+              onclick="removeItem(${index})"
+              style="
+                background:#e53935;
+                color:white;
+                border:none;
+                padding:6px 10px;
+                border-radius:6px;
+                margin-left:8px;
+              "
+            >
+              ❌
+            </button>
+
+            <br><br>
+
+            <strong>
+              Sub Total: ₹${itemTotal}
+            </strong>
+
+          </div>
+        `;
+
+      }
+    );
+
+  }
+
+
+  if (cartTotal) {
+
+    cartTotal.textContent =
+      getCartTotal();
+
+  }
+
+
+  cartModal.classList.add("show");
+
+};
+
+
+// =====================================================
+// CHANGE QUANTITY
+// =====================================================
+
+window.changeQty = function(index, change) {
+
+  if (!cartItems[index]) {
+    return;
+  }
+
+
+  cartItems[index].quantity =
+    Number(cartItems[index].quantity) +
+    Number(change);
+
+
+  if (cartItems[index].quantity <= 0) {
+
+    cartItems.splice(index, 1);
+
+  }
+
+
+  saveCart();
+
+  updateCartUI();
+
+  viewCart();
+
+};
+
+
+// =====================================================
+// REMOVE ITEM
+// =====================================================
+
+window.removeItem = function(index) {
+
+  if (!cartItems[index]) {
+    return;
+  }
+
+
+  cartItems.splice(index, 1);
+
+  saveCart();
+
+  updateCartUI();
+
+  viewCart();
+
+};
+
+
+// =====================================================
+// CLEAR CART
+// =====================================================
+
+window.clearCart = function() {
+
+  if (cartItems.length === 0) {
+    return;
+  }
+
+
+  const confirmClear =
+    confirm(
+      "🗑️ Cart முழுவதையும் Clear செய்யவா?"
+    );
+
+
+  if (!confirmClear) {
+    return;
+  }
+
+
+  cartItems = [];
+
+  localStorage.removeItem(
+    "cartItems"
+  );
+
+
+  updateCartUI();
+
+  closeCart();
+
+};
+
+
+// =====================================================
+// CLOSE CART
+// =====================================================
+
+window.closeCart = function() {
+
+  const cartModal =
+    document.getElementById("cartModal");
+
+
+  if (cartModal) {
+
+    cartModal.classList.remove(
+      "show"
+    );
+
+  }
+
+};
+
+
+// =====================================================
+// HTML ESCAPE
+// =====================================================
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+// =====================================================
+// LOAD PRODUCTS FROM FIRESTORE
+// =====================================================
+
+async function loadProducts() {
+
+  const productsDiv =
+    document.getElementById("products");
+
+
+  if (!productsDiv) {
+    return;
+  }
+
+
+  productsDiv.innerHTML = `
+    <p style="
+      text-align:center;
+      padding:20px;
+    ">
+      ⏳ Products loading...
+    </p>
+  `;
+
+
+  try {
+
+    const querySnapshot =
+      await getDocs(
+        collection(db, "products")
+      );
+
+
+    productsDiv.innerHTML = "";
+
+
+    if (querySnapshot.empty) {
+
+      productsDiv.innerHTML = `
+        <p style="
+          text-align:center;
+          color:#777;
+          padding:20px;
+        ">
+          🛒 Products இல்லை
+        </p>
+      `;
+
+      return;
+    }
+
+
+    querySnapshot.forEach(
+      documentSnapshot => {
+
+        const product =
+          documentSnapshot.data();
+
+
+        const name =
+          product.name ||
+          "Product";
+
+
+        const price =
+          Number(product.price) ||
+          0;
+
+
+        const mrp =
+          Number(product.mrp) ||
+          0;
+
+
+        const image =
+          product.image ||
+          "";
+
+
+        const stock =
+          product.stock ||
+          "In Stock";
+
+
+        let discount = 0;
+
+
+        if (
+          mrp > price &&
+          mrp > 0
+        ) {
+
+          discount =
+            Math.round(
+              ((mrp - price) / mrp) *
+              100
+            );
+
+        }
+
+
+        const safeName =
+          escapeHTML(name);
+
+
+        const jsSafeName =
+          String(name)
+            .replace(/\\/g, "\\\\")
+            .replace(/'/g, "\\'");
+
+
+        const offerBadge =
+          discount > 0
+            ? `
+              <span class="offer-badge">
+                ${discount}% OFF
+              </span>
+            `
+            : "";
+
+
+        const priceDisplay =
+          discount > 0
+            ? `
+              <div class="price-box">
+
+                <span class="mrp">
+                  ₹${mrp}
+                </span>
+
+                <span class="offer-price">
+                  ₹${price}
+                </span>
+
+              </div>
+            `
+            : `
+              <div class="price-box">
+
+                <span class="offer-price">
+                  ₹${price}
+                </span>
+
+              </div>
+            `;
+
+
+        productsDiv.innerHTML += `
+          <div class="product">
+
+            ${offerBadge}
+
+            <img
+              src="${escapeHTML(image)}"
+              alt="${safeName}"
+              onerror="
+                this.src='https://via.placeholder.com/300x200?text=No+Image'
+              "
+            >
+
+            <h3>
+              ${safeName}
+            </h3>
+
+            ${priceDisplay}
+
+            <p class="stock">
+              ${escapeHTML(stock)}
+            </p>
+
+            <button
+              onclick="
+                addToCart(
+                  '${jsSafeName}',
+                  ${price}
+                )
+              "
+            >
+              🛒 Add to Cart
+            </button>
+
+            <button
+              onclick="
+                orderProduct(
+                  '${jsSafeName}',
+                  ${price}
+                )
+              "
+            >
+              📲 WhatsApp Order
+            </button>
+
+          </div>
+        `;
+
+      }
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Products Error:",
+      error
+    );
+
+
+    productsDiv.innerHTML = `
+      <p style="
+        color:red;
+        text-align:center;
+        padding:20px;
+      ">
+        ❌ Products load ஆகவில்லை
+      </p>
+    `;
+
+  }
+
+}
+
+
+// =====================================================
+// WHATSAPP SINGLE PRODUCT
+// =====================================================
+
+window.orderProduct =
+function(name, price) {
+
+  const message =
+`வணக்கம் நம்ம மார்ட் 🙏
+
+🛒 பொருள்: ${name}
+
+💰 விலை: ₹${price}
+
+இந்த பொருள் எனக்கு வேண்டும்.`;
+
+
+  const whatsappURL =
+    `https://wa.me/918760534354?text=${
+      encodeURIComponent(message)
+    }`;
+
+
+  window.open(
+    whatsappURL,
+    "_blank"
+  );
+
+};
+
+
+// =====================================================
+// DELIVERY DISTANCE
+// =====================================================
+
+const SHOP_LAT =
+  11.3641875;
+
+const SHOP_LNG =
+  77.7553125;
+
+
+function getDistanceKm(
+  lat1,
+  lon1,
+  lat2,
+  lon2
+) {
+
+  const R = 6371;
+
+
+  const dLat =
+    (lat2 - lat1) *
+    Math.PI / 180;
+
+
+  const dLon =
+    (lon2 - lon1) *
+    Math.PI / 180;
+
+
+  const a =
+    Math.sin(dLat / 2) *
+    Math.sin(dLat / 2) +
+
+    Math.cos(
+      lat1 * Math.PI / 180
+    ) *
+
+    Math.cos(
+      lat2 * Math.PI / 180
+    ) *
+
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
+
+
+  const c =
+    2 *
+    Math.atan2(
+      Math.sqrt(a),
+      Math.sqrt(1 - a)
+    );
+
+
+  return R * c;
+
+}
+
+
+function getCustomerLocation() {
+
+  return new Promise(
+    (resolve, reject) => {
+
+      if (
+        !navigator.geolocation
+      ) {
+
+        reject(
+          "Location support இல்லை"
+        );
+
+        return;
+      }
+
+
+      navigator.geolocation.getCurrentPosition(
+
+        position => {
+
+          const lat =
+            position.coords.latitude;
+
+
+          const lng =
+            position.coords.longitude;
+
+
+          const distance =
+            getDistanceKm(
+              lat,
+              lng,
+              SHOP_LAT,
+              SHOP_LNG
+            );
+
+
+          resolve(distance);
+
+        },
+
+
+        () => {
+
+          reject(
+            "Location permission கொடுக்கப்படவில்லை"
+          );
+
+        },
+
+
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+
+      );
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// CHECKOUT
+// =====================================================
+
+window.checkout =
+async function() {
+
+  if (cartItems.length === 0) {
+
+    alert(
+      "🛒 Cart காலியாக உள்ளது!"
+    );
+
+    return;
+  }
+
+
+  const total =
+    getCartTotal();
+
+
+  if (total < 500) {
+
+    alert(
+      `⚠️ Minimum Order ₹500
+
+இன்னும் ₹${500 - total} வாங்க வேண்டும்.`
+    );
+
+    return;
+  }
+
+
+  // -----------------------------------------------
+  // CUSTOMER NAME
+  // -----------------------------------------------
+
+  let customerName =
+    localStorage.getItem(
+      "customerName"
+    );
+
+
+  if (!customerName) {
+
+    customerName =
+      prompt(
+        "👤 உங்கள் பெயர்:"
+      );
+
+
+    if (!customerName) {
+      return;
+    }
+
+
+    localStorage.setItem(
+      "customerName",
+      customerName
+    );
+
+  }
+
+
+  // -----------------------------------------------
+  // CUSTOMER PHONE
+  // -----------------------------------------------
+
+  let customerPhone =
+    localStorage.getItem(
+      "customerPhone"
+    );
+
+
+  if (!customerPhone) {
+
+    customerPhone =
+      prompt(
+        "📞 உங்கள் மொபைல் எண்:"
+      );
+
+
+    if (!customerPhone) {
+      return;
+    }
+
+
+    localStorage.setItem(
+      "customerPhone",
+      customerPhone
+    );
+
+  }
+
+
+  // -----------------------------------------------
+  // CUSTOMER ADDRESS
+  // -----------------------------------------------
+
+  let customerAddress =
+    localStorage.getItem(
+      "customerAddress"
+    );
+
+
+  if (!customerAddress) {
+
+    customerAddress =
+      prompt(
+        "📍 உங்கள் முகவரி:"
+      );
+
+
+    if (!customerAddress) {
+      return;
+    }
+
+
+    localStorage.setItem(
+      "customerAddress",
+      customerAddress
+    );
+
+  }
+
+
+  // -----------------------------------------------
+  // DELIVERY STATUS
+  // -----------------------------------------------
+
+  let deliveryStatus =
+    "";
+
+
+  let deliveryDistance =
+    0;
+
+
+  try {
+
+    deliveryDistance =
+      await getCustomerLocation();
+
+
+    if (deliveryDistance <= 5) {
+
+      deliveryStatus =
+        "🟢 Today Delivery";
+
+    } else {
+
+      deliveryStatus =
+        "🔵 Next Day Delivery";
+
+    }
+
+
+    console.log(
+      "Delivery Distance:",
+      deliveryDistance.toFixed(2),
+      "KM"
+    );
+
+
+  } catch (error) {
+
+    alert(
+      "📍 Delivery location permission கொடுக்கவும்"
+    );
+
+    return;
+  }
+
+
+  // -----------------------------------------------
+  // ORDER LIST
+  // -----------------------------------------------
+
+  let orderList = "";
+
+
+  cartItems.forEach(
+    item => {
+
+      orderList +=
+        `• ${item.name} × ${item.quantity} = ₹${
+          Number(item.price) *
+          Number(item.quantity)
+        }\n`;
+
+    }
+  );
+
+
+  // -----------------------------------------------
+  // SAVE ORDER TO FIREBASE
+  // -----------------------------------------------
+
+  try {
+
+    await addDoc(
+      collection(
+        db,
+        "orders"
+      ),
+      {
+
+        name:
+          customerName,
+
+        phone:
+          customerPhone,
+
+        address:
+          customerAddress,
+
+        items:
+          cartItems,
+
+        total:
+          total,
+
+        deliveryStatus:
+          deliveryStatus,
+
+        deliveryDistanceKm:
+          Number(
+            deliveryDistance.toFixed(2)
+          ),
+
+        status:
+          "Pending",
+
+        createdAt:
+          new Date().toISOString()
+
+      }
+    );
+
+
+    console.log(
+      "✅ Order saved to Firebase"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Firebase order error:",
+      error
+    );
+
+  }
+
+
+  // -----------------------------------------------
+  // WHATSAPP MESSAGE
+  // -----------------------------------------------
+
+  const message =
+`🛒 நம்ம மார்ட்
+
+👤 பெயர்: ${customerName}
+
+📞 மொபைல்: ${customerPhone}
+
+📍 முகவரி:
+${customerAddress}
+
+📦 ஆர்டர்:
+
+${orderList}
+
+💰 மொத்தம்: ₹${total}
+
+🚚 Delivery: ${deliveryStatus}
+
+📏 Distance: ${deliveryDistance.toFixed(2)} KM
+
+நன்றி 🙏`;
+
+
+  const whatsappURL =
+    `https://wa.me/918760534354?text=${
+      encodeURIComponent(message)
+    }`;
+
+
+  window.open(
+    whatsappURL,
+    "_blank"
+  );
+
+};
+
+
+// =====================================================
+// SEARCH
+// =====================================================
+
+const searchBox =
+  document.getElementById(
+    "search"
+  );
+
+
+if (searchBox) {
+
+  searchBox.addEventListener(
+    "input",
+    function() {
+
+      const value =
+        this.value
+          .toLowerCase()
+          .trim();
+
+
+      document
+        .querySelectorAll(
+          ".product"
+        )
+        .forEach(
+          product => {
+
+            const text =
+              product.innerText
+                .toLowerCase();
+
+
+            product.style.display =
+              text.includes(value)
+                ? ""
+                : "none";
+
+          }
+        );
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// CATEGORY FILTER
+// =====================================================
+
+window.filterProducts =
+function(category) {
+
+  category =
+    String(category)
+      .toLowerCase()
+      .trim();
+
+
+  document
+    .querySelectorAll(
+      ".product"
+    )
+    .forEach(
+      product => {
+
+        const text =
+          product.innerText
+            .toLowerCase();
+
+
+        if (
+          category === "all"
+        ) {
+
+          product.style.display =
+            "";
+
+        } else {
+
+          product.style.display =
+            text.includes(category)
+              ? ""
+              : "none";
+
+        }
+
+      }
+    );
+
+};
+
+
+// =====================================================
+// OFFER
+// =====================================================
+
+async function loadOffer() {
+
+  try {
+
+    const snap =
+      await getDoc(
+        doc(
+          db,
+          "settings",
+          "offer"
+        )
+      );
+
+
+    const offerBanner =
+      document.getElementById(
+        "offerBanner"
+      );
+
+
+    if (!offerBanner) {
+      return;
+    }
+
+
+    if (snap.exists()) {
+
+      const offerText =
+        snap.data().text || "";
+
+
+      if (offerText.trim()) {
+
+        offerBanner.innerHTML =
+          `🎁 ${escapeHTML(offerText)}`;
+
+        offerBanner.style.display =
+          "block";
+
+      } else {
+
+        offerBanner.style.display =
+          "none";
+
+      }
+
+
+    } else {
+
+      offerBanner.style.display =
+        "none";
+
+    }
+
+
+  } catch (error) {
+
+    console.error(
+      "Offer error:",
+      error
+    );
+
+  }
+
+}
+
+
+// =====================================================
+// SHOP STATUS
+// =====================================================
+
+function updateShopStatus() {
+
+  const statusDiv =
+    document.getElementById(
+      "shop-status"
+    );
+
+
+  if (!statusDiv) {
+    return;
+  }
+
+
+  const now =
+    new Date();
+
+
+  const hour =
+    now.getHours();
+
+
+  if (
+    hour >= 7 &&
+    hour < 22
+  ) {
+
+    statusDiv.innerHTML =
+      "🟢 Shop Open<br><small>7:00 AM - 10:00 PM</small>";
+
+    statusDiv.style.color =
+      "green";
+
+
+  } else {
+
+    statusDiv.innerHTML =
+      "🔴 Shop Closed<br><small>Opens at 7:00 AM</small>";
+
+    statusDiv.style.color =
+      "red";
+
+  }
+
+}
+
+
+// =====================================================
+// MINIMUM ORDER PROGRESS
+// =====================================================
+
+function updateProgress() {
+
+  const total =
+    getCartTotal();
+
+
+  let percent =
+    (total / 500) * 100;
+
+
+  percent =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        percent
+      )
+    );
+
+
+  const fill =
+    document.getElementById(
+      "progressFill"
+    );
+
+
+  const text =
+    document.getElementById(
+      "progressText"
+    );
+
+
+  if (fill) {
+
+    fill.style.width =
+      percent + "%";
+
+
+    if (total < 500) {
+
+      fill.style.background =
+        "#ff3b30";
+
+    } else {
+
+      fill.style.background =
+        "#4CAF50";
+
+    }
+
+  }
+
+
+  if (text) {
+
+    if (total < 500) {
+
+      text.innerHTML =
+        `₹${total} / ₹500<br>
+        ⚠️ இன்னும் ₹${500 - total}
+        வாங்கினால் Checkout செய்யலாம்`;
+
+    } else {
+
+      text.innerHTML =
+        `🎉 Minimum Order Completed (₹${total})`;
+
+    }
+
+  }
+
+
+  const checkoutBtn =
+    document.getElementById(
+      "checkoutBtn"
+    );
+
+
+  if (checkoutBtn) {
+
+    checkoutBtn.disabled =
+      total < 500;
+
+
+    checkoutBtn.style.opacity =
+      total >= 500
+        ? "1"
+        : "0.5";
+
+  }
+
+}
+
+
+// =====================================================
+// PWA INSTALL
+// =====================================================
+
+let deferredPrompt =
+  null;
+
+
+window.addEventListener(
+  "beforeinstallprompt",
+  event => {
+
+    event.preventDefault();
+
+    deferredPrompt =
+      event;
+
+
+    const installBtn =
+      document.getElementById(
+        "installBtn"
+      );
+
+
+    if (installBtn) {
+
+      installBtn.style.display =
+        "block";
+
+    }
+
+  }
+);
+
+
+const installBtn =
+  document.getElementById(
+    "installBtn"
+  );
+
+
+if (installBtn) {
+
+  installBtn.addEventListener(
+    "click",
+    async () => {
+
+      if (!deferredPrompt) {
+        return;
+      }
+
+
+      deferredPrompt.prompt();
+
+
+      const result =
+        await deferredPrompt.userChoice;
+
+
+      console.log(
+        "Install response:",
+        result.outcome
+      );
+
+
+      deferredPrompt =
+        null;
+
+
+      installBtn.style.display =
+        "none";
+
+    }
+  );
+
+}
+
+
+// =====================================================
+// DELIVERY BANNER SLIDER
+// =====================================================
+
+let deliverySlideIndex =
+  0;
+
+
+function playDeliverySlider() {
+
+  const slides =
+    document.querySelector(
+      ".delivery-slides"
+    );
+
+
+  const dots =
+    document.querySelectorAll(
+      ".slider-dots .dot"
+    );
+
+
+  if (
+    !slides ||
+    dots.length === 0
+  ) {
+    return;
+  }
+
+
+  deliverySlideIndex++;
+
+
+  if (
+    deliverySlideIndex >=
+    dots.length
+  ) {
+
+    deliverySlideIndex =
+      0;
+
+  }
+
+
+  slides.style.transform =
+    `translateX(-${
+      deliverySlideIndex * 50
+    }%)`;
+
+
+  dots.forEach(
+    (dot, index) => {
+
+      dot.classList.toggle(
+        "active",
+        index ===
+        deliverySlideIndex
+      );
+
+    }
+  );
+
+}
+
+
+setInterval(
+  playDeliverySlider,
+  4000
+);
+
+
+// =====================================================
+// START APPLICATION
+// =====================================================
+
+console.log(
+  "✅ NAMMA MART script.js working"
+);
+
+
+loadProducts();
+
+loadOffer();
+
+updateCartUI();
+
+updateShopStatus();
+
+updateProgress();
