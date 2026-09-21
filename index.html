@@ -164,11 +164,9 @@ font-weight:bold;">
 <!-- 💳 Payment Options -->
 <section class="payment-options">
 
-    <!-- 💳 Payment Options -->
-<section class="payment-options">
-
     <h2>💳 Payment Options</h2>
 
+    <!-- 💵 Cash on Delivery -->
     <div class="payment-method">
 
         <div class="payment-method-left">
@@ -184,44 +182,55 @@ font-weight:bold;">
     </div>
 
 
-    <div class="payment-method">
+    <!-- 🟢 G Pay / UPI -->
+    <div class="payment-method"
+         onclick="showUPIPayment()">
 
         <div class="payment-method-left">
-            <div class="payment-method" onclick="showUPIPayment()">
 
-    <div class="payment-method-left">
-        <div class="payment-method-icon">🟢</div>
+            <div class="payment-method-icon">🟢</div>
 
-        <div>
-            <h3>G Pay / UPI</h3>
-            <p>Pay by any UPI app</p>
+            <div>
+                <h3>G Pay / UPI</h3>
+                <p>Pay by any UPI app</p>
+            </div>
+
         </div>
+
+        <div class="payment-arrow">⌄</div>
+
     </div>
 
-    <div class="payment-arrow">⌄</div>
- </div>
+
+    <!-- 🟢 UPI Payment Details -->
+    <div id="upiHomePayment"
+         class="upi-home-payment">
+
+        <h3>🟢 G Pay / UPI Payment</h3>
+
+        <p>QR Code-ஐ Scan செய்து Payment செய்யுங்கள்</p>
+
+        <img src="./upi-qr.png"
+             alt="UPI QR Code"
+             class="upi-home-qr">
+
+        <p>
+            <b>UPI ID:</b> thalapathiraj971@okicici
+        </p>
+
+    </div>
 
 </section>
+
+
 <h2 class="title">Today's Products</h2>
+
+<div id="products" class="products"></div>
 
 <div id="products" class="products">
   
 </div>
-       <div id="upiHomePayment" class="upi-home-payment">
-
-    <h3>🟢 G Pay / UPI Payment</h3>
-
-    <p>QR Code-ஐ Scan செய்து Payment செய்யுங்கள்</p>
-
-    <img src="./upi-qr.png"
-         alt="UPI QR Code"
-         class="upi-home-qr">
-
-    <p>
-        <b>UPI ID:</b> thalapathiraj971@okicici
-    </p>
-
-       </div>     
+    
 
 </main>
     <div id="cartModal" class="cart-modal">
