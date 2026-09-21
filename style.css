@@ -695,3 +695,48 @@ main{
         font-size:8px;
     }
 }
+/* =========================
+   CART MODAL FIX
+========================= */
+
+.cart-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 99999;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.cart-modal.show {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-content {
+    width: 100%;
+    max-width: 430px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.cart-content h2 {
+    margin-bottom: 15px;
+    color: #0097A7;
+}
+
+.cart-content h3 {
+    margin: 15px 0;
+}
+
+.cart-content button {
+    cursor: pointer;
+}
